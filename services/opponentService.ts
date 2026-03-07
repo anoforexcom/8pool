@@ -1,0 +1,61 @@
+
+import { PoolGameState, PoolBall } from '../types';
+import { TABLE_WIDTH, TABLE_HEIGHT, POCKETS } from './poolPhysics';
+
+export const calculateOpponentShot = (state: PoolGameState): { power: number; angle: number } | null => {
+    const { balls, cueBall, opponentType } = state;
+
+    // Decide which balls to target
+    let targetBalls = balls.filter(b => !b.isPotted);
+
+    if (opponentType) {
+        const myBalls = targetBalls.filter(b => b.type === opponentType);
+        if (myBalls.length > 0) {
+            targetBalls = myBalls;
+        } else {
+            // Must hit 8-ball if all others are gone
+            const eightBall = balls.find(b => b.id === 8 && !b.isPotted);
+            if (eightBall) targetBalls = [eightBall];
+        }
+    } else {
+        // Open table, exclude 8-ball if possible
+        const nonBlack = targetBalls.filter(b => b.type !== 'black');
+        if (nonBlack.length > 0) targetBalls = nonBlack;
+    }
+
+    if (targetBalls.length === 0) return null;
+
+    // Pick a target ball
+    const target = targetBalls[Math.floor(Math.random() * targetBalls.length)];
+
+    // Find nearest pocket to the target ball
+    const nearestPocket = POCKETS.reduce((prev, curr) => {
+        const dPrev = Math.hypot(target.x - prev.x, target.y - prev.y);
+        const dCurr = Math.hypot(target.x - curr.x, target.y - curr.y);
+        return dCurr < dPrev ? curr : prev;
+    });
+
+    // To hit target towards pocket, we need to hit a point on the opposite side of the target ball from the pocket
+    const dirX = target.x - nearestPocket.x;
+    const dirY = target.y - nearestPocket.y;
+    const dirDist = Math.hypot(dirX, dirY);
+
+    const impactX = target.x + (dirX / dirDist) * (cueBall.radius * 2);
+    const impactY = target.y + (dirY / dirDist) * (cueBall.radius * 2);
+
+    const dx = impactX - cueBall.x;
+    const dy = impactY - cueBall.y;
+    const angleToImpact = Math.atan2(dy, dx);
+
+    // Human-like error simulation
+    // Lower error magnitude as level increases (more "professional" opponents)
+    const levelDifficultyFactor = Math.max(0.1, 1 - (state.level / 150));
+    const errorMagnitude = 0.05 * levelDifficultyFactor;
+    const accuracyNoise = (Math.random() - 0.5) * errorMagnitude;
+    const powerJitter = 0.8 + (Math.random() * 0.4);
+
+    return {
+        power: 14 * powerJitter,
+        angle: angleToImpact + accuracyNoise
+    };
+};

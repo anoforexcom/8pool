@@ -17,7 +17,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
             <Trophy size={32} className="text-amber-400 drop-shadow-lg" />
             <div>
               <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter leading-none">Global Ranking</h2>
-              <p className="text-indigo-100 text-[10px] font-bold uppercase tracking-widest mt-2">The Top 100 Masters Worldwide</p>
+              <p className="text-indigo-100 text-[10px] font-bold uppercase tracking-widest mt-2">The Top 100 Pool Masters Worldwide</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 sm:p-3 hover:bg-white/10 rounded-full transition-all border border-white/20">
@@ -31,7 +31,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
               <tr>
                 <th className="px-4 sm:px-6 py-4"># Rank</th>
                 <th className="px-4 sm:px-6 py-4">Player</th>
-                <th className="px-4 sm:px-6 py-4 text-center hidden sm:table-cell">Levels</th>
+                <th className="px-4 sm:px-6 py-4 text-center hidden sm:table-cell">Tournaments</th>
                 <th className="px-4 sm:px-6 py-4 text-right">Score</th>
               </tr>
             </thead>
@@ -49,16 +49,16 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
                 entries.map((entry, index) => {
                   const rank = index + 1;
                   return (
-                    <tr 
-                      key={index} 
+                    <tr
+                      key={index}
                       className={`${entry.isCurrentUser ? 'bg-indigo-50/70 border-l-4 border-indigo-600' : 'hover:bg-slate-50/50'} transition-all`}
                     >
                       <td className="px-4 sm:px-6 py-4">
                         <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full font-black text-xs sm:text-sm">
-                          {rank === 1 ? <Medal className="text-amber-400 drop-shadow-sm" size={24} /> : 
-                           rank === 2 ? <Medal className="text-slate-300" size={24} /> : 
-                           rank === 3 ? <Medal className="text-amber-700" size={24} /> : 
-                           <span className="text-slate-300">#{rank}</span>}
+                          {rank === 1 ? <Medal className="text-amber-400 drop-shadow-sm" size={24} /> :
+                            rank === 2 ? <Medal className="text-slate-300" size={24} /> :
+                              rank === 3 ? <Medal className="text-amber-700" size={24} /> :
+                                <span className="text-slate-300">#{rank}</span>}
                         </div>
                       </td>
                       <td className="px-4 sm:px-6 py-4">
@@ -71,7 +71,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
                               {entry.name} {entry.isCurrentUser && '(YOU)'}
                             </span>
                             <span className="text-[8px] font-bold text-slate-400 uppercase sm:hidden">
-                              {entry.levels} Levels
+                              {entry.levels} Matches
                             </span>
                           </div>
                         </div>
@@ -91,9 +91,9 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
             </tbody>
           </table>
         </div>
-        
+
         <div className="p-6 bg-slate-50 border-t border-slate-100 text-center text-[9px] text-slate-400 font-black uppercase tracking-[0.4em] flex-shrink-0">
-          Rankings updated in real-time based on solving performance
+          Rankings updated in real-time based on tournament performance
         </div>
       </div>
     </div>

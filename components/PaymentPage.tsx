@@ -243,7 +243,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
                                                             intent: "CAPTURE",
                                                             purchase_units: [
                                                                 {
-                                                                    description: `${settings.appName || 'Sudokas'} - ${pack.pack}`,
+                                                                    description: `${settings.appName || 'Pool8.live'} - ${pack.pack}`,
                                                                     amount: {
                                                                         currency_code: "EUR",
                                                                         value: pack.price.toString(),

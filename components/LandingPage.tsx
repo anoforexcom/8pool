@@ -62,7 +62,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onNavigate, onAdmin,
             onClick={handleLogoClick}
           >
             <div className="bg-white p-0.5 rounded-lg text-white group-hover:scale-110 transition-transform shadow-sm overflow-hidden border border-slate-100 flex items-center justify-center">
-              <img src="/favicon.svg" alt="Pool8Live Logo" className="w-6 h-6 object-contain" />
+              <img src="/logo.png" alt="Pool8Live Logo" className="w-6 h-6 object-contain" />
             </div>
             <span className="font-black text-xl tracking-tight text-slate-800 uppercase">{appName}</span>
           </div>
@@ -355,7 +355,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onNavigate, onAdmin,
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-6">
               <div className="bg-white p-0.5 rounded-lg text-white shadow-sm overflow-hidden border border-slate-100 flex items-center justify-center">
-                <img src="/favicon.svg" alt="SudokasLive Logo" className="w-8 h-8 object-contain" />
+                <img src="/logo.png" alt="Pool8Live Logo" className="w-8 h-8 object-contain" />
               </div>
               <span className="font-black text-2xl text-slate-800 tracking-tighter">{appName} PRO</span>
             </div>

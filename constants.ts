@@ -1,5 +1,5 @@
 
-import { Difficulty, LevelData } from './types';
+import { Difficulty, PoolLevelData } from './types';
 
 export const TOTAL_LEVELS = 150;
 
@@ -34,21 +34,32 @@ export const CREDIT_PACKS = [
   { id: 'master', pack: "MASTER PACK", qty: 1200, price: 19.99, amount: "$19.99", bonus: "VIP Support" },
 ];
 
-export const LEVELS: LevelData[] = Array.from({ length: TOTAL_LEVELS }, (_, i) => {
+export const LEVELS: PoolLevelData[] = Array.from({ length: TOTAL_LEVELS }, (_, i) => {
   const id = i + 1;
   let difficulty: Difficulty = 'Easy';
-  let clues = 45;
+  let targetBalls = 3;
+  let maxShots = 10;
 
   if (id > 120) {
     difficulty = 'Expert';
-    clues = 24;
+    targetBalls = 8;
+    maxShots = 15;
   } else if (id > 70) {
     difficulty = 'Hard';
-    clues = 30;
+    targetBalls = 6;
+    maxShots = 12;
   } else if (id > 30) {
     difficulty = 'Medium';
-    clues = 36;
+    targetBalls = 4;
+    maxShots = 10;
   }
 
-  return { id, difficulty, clues };
+  return { id, difficulty, targetBalls, maxShots };
 });
+
+export const OPPONENT_NAMES = [
+  'Alex "The Hurricane"', 'Ronnie O.', 'Efren "Bata"', 'Shane V.B.', 'Jiajun W.',
+  'Mika "The Iceman"', 'Earl "The Pearl"', 'Thorsten H.', 'Francisco B.', 'Joshua F.',
+  'Fedur G.', 'Ko Pin-yi', 'Albin O.', 'David A.', 'Eklent K.', 'Skyler W.',
+  'Tyler S.', 'Chris M.', 'Naoyuki O.', 'Wu Jiaqing'
+];

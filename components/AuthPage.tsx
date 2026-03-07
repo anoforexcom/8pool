@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, LayoutGrid, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, LayoutGrid, ArrowRight, Sparkles, Loader2, ShoppingBag } from 'lucide-react';
 import { auth, db } from '../services/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -81,7 +81,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, onBack }) => {
       <div className="bg-white p-8 md:p-12 rounded-[3rem] shadow-2xl max-w-md w-full border border-slate-100 animate-in zoom-in duration-500">
         <div className="text-center mb-10">
           <div className="bg-white w-20 h-20 rounded-3xl flex items-center justify-center text-white mx-auto mb-8 shadow-2xl rotate-6 overflow-hidden border border-slate-100">
-            <img src="/favicon.svg" alt="SudokasLive Logo" className="w-16 h-16 object-contain" />
+            <img src="/logo.png" alt="Pool 8 Live Logo" className="w-16 h-16 object-contain" />
           </div>
           <h2 className="text-3xl font-black text-slate-800 mb-2 uppercase tracking-tight">{isLogin ? 'WELCOME BACK' : 'CREATE ACCOUNT'}</h2>
           <p className="text-slate-400 font-bold text-sm">{isLogin ? 'Login to continue your progress' : 'Sign up and get 50 free credits'}</p>
@@ -136,6 +136,20 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, onBack }) => {
             className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-lg shadow-xl hover:bg-indigo-700 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest mt-4 flex items-center justify-center gap-3 disabled:opacity-50 disabled:scale-100"
           >
             {loading ? <Loader2 className="animate-spin" size={24} /> : (isLogin ? 'LOGIN NOW' : 'CREATE ACCOUNT')}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setLoading(true);
+              setTimeout(() => {
+                onLogin({ name: 'Shopify User', email: 'user@shopify.com' });
+                setLoading(false);
+              }, 1500);
+            }}
+            className="w-full py-5 bg-[#95BF47] text-white rounded-2xl font-black text-lg shadow-xl hover:bg-[#82a63d] hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest flex items-center justify-center gap-3 mt-2"
+          >
+            <ShoppingBag size={24} /> LOGIN WITH SHOPIFY
           </button>
         </form>
 

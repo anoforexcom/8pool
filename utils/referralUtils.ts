@@ -28,7 +28,7 @@ export const REFERRAL_MILESTONES = [
     { friends: 10, bonus: 600, badge: "Influencer Silver" },
     { friends: 25, bonus: 1500, badge: "Influencer Gold" },
     { friends: 50, bonus: 3500, badge: "Influencer Platinum" },
-    { friends: 100, bonus: 10000, badge: "Sudoku Ambassador" }
+    { friends: 100, bonus: 10000, badge: "Pool Regular" }
 ];
 
 // Generate unique referral code
@@ -57,22 +57,22 @@ export function getReferralLink(code: string): string {
     if (typeof window !== 'undefined') {
         return `${window.location.origin}/r/${code}`;
     }
-    return `https://sudokuza.live/r/${code}`;
+    return `https://pool8.live/r/${code}`;
 }
 
 // Share messages
 export const SHARE_MESSAGES = {
     whatsapp: (link: string) =>
-        `🎮 Descobri o sudokuza.live - 150 níveis de Sudoku grátis!\n\nUsa o meu link e ganhamos os dois créditos grátis:\n${link}\n\nVamos ver quem chega mais longe! 🏆`,
+        `🎮 Descobri o pool8.live - O melhor jogo de Pool 8 real!\n\nUsa o meu link e ganhamos os dois créditos grátis:\n${link}\n\nVamos ver quem ganha a partida! 🏆`,
 
     facebook: (link: string) =>
-        `Estou viciado no sudokuza.live! 🧩\n\nJoga grátis e ganha créditos com o meu link: ${link}`,
+        `Já jogaste no pool8.live? 🎱\n\nRegista-te e ganha créditos para torneios com o meu link: ${link}`,
 
     twitter: (link: string) =>
-        `Desafio Sudoku! 🎯\n\nJoga grátis em ${link} e vamos competir no leaderboard!\n\n#Sudoku #BrainGames`,
+        `Desafio Pool 8! 🎯\n\nJoga grátis em ${link} e vamos competir no leaderboard!\n\n#Pool8 #Billiards`,
 
     email: (link: string) => ({
-        subject: 'Vem jogar Sudoku comigo!',
-        body: `Olá!\n\nDescobri um site incrível de Sudoku com 150 níveis progressivos.\n\nRegista-te com o meu link e ganhamos os dois créditos grátis:\n${link}\n\nVamos ver quem consegue a melhor pontuação! 🏆\n\nAbraço!`
+        subject: 'Vem jogar Pool 8 comigo!',
+        body: `Olá!\n\nDescobri um site incrível de Pool 8 com 150 níveis progressivos.\n\nRegista-te com o meu link e ganhamos os dois créditos grátis:\n${link}\n\nVamos ver quem ganha a partida! 🏆\n\nAbraço!`
     })
 };

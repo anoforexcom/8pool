@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-    title: "pool8.live - Premium 8 Ball Pool Game",
-    description: "Play premium 8 Ball Pool with global rankings, tournaments, and achievements. Free to start!",
+    title: "pool8.live - Premium 8 Ball Pool Experience",
+    description: "The most polished 8 Ball Pool game with tournaments, rankings, and real-time competition.",
     keywords: ["pool", "8 ball pool", "billiards", "pool online", "free pool game", "pool table", "8ball", "mind games"],
     authors: [{ name: "pool8.live" }],
     robots: "index, follow",
@@ -42,7 +42,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
-                <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+                <link rel="icon" type="image/png" href="/logo.png" />
                 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
             </head>
             <body className="antialiased">

@@ -32,7 +32,7 @@ export async function POST(request: Request) {
                     price_data: {
                         currency: 'eur',
                         product_data: {
-                            name: `${appName || 'Sudokas'} - ${packName}`,
+                            name: `${appName || 'Pool8.live'} - ${packName}`,
                             description: `Compra de ${packName}.`,
                         },
                         unit_amount: Math.round(price * 100), // Stripe uses cents

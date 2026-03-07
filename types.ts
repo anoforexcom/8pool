@@ -92,26 +92,44 @@ export interface LeaderboardEntry {
   isCurrentUser?: boolean;
 }
 
-export interface SudokuState {
-  board: (number | null)[][];
-  initialBoard: (number | null)[][];
-  solution: number[][];
-  notes: Set<number>[][];
-  selectedCell: [number, number] | null;
-  mistakes: number;
-  maxMistakes: number;
-  isComplete: boolean;
+export interface PoolBall {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  type: 'cue' | 'solid' | 'stripe' | 'black';
+  number: number;
+  isPotted: boolean;
+  color: string;
+}
+
+export interface PoolGameState {
+  balls: PoolBall[];
+  cueBall: PoolBall;
+  cueTarget: { x: number, y: number } | null;
+  cuePower: number;
+  gameState: 'aiming' | 'moving' | 'potted' | 'won' | 'lost' | 'opponent_thinking';
+  currentTurn: 'player' | 'opponent';
+  playerType: 'solid' | 'stripe' | null;
+  opponentType: 'solid' | 'stripe' | null;
+  opponentName: string;
+  score: number;
+  shots: number;
+  maxShots: number;
+  pottedBalls: PoolBall[];
   level: number;
   timer: number;
   timeLeft: number;
   isPaused: boolean;
-  history: (number | null)[][][];
 }
 
-export interface LevelData {
+export interface PoolLevelData {
   id: number;
   difficulty: Difficulty;
-  clues: number;
+  targetBalls: number;
+  maxShots: number;
 }
 
 export interface KidsState {

@@ -1,8 +1,8 @@
-# 🎮 sudokuza.live
+# 🎱 pool8.live
 
-> Premium Sudoku gaming platform with 150 progressive levels, monetization system, and professional admin dashboard.
+> Premium pool8.live gaming platform with 150 progressive levels, monetization system, and professional admin dashboard.
 
-[![Live Demo](https://img.shields.io/badge/demo-live-success)](https://sudokuza.live)
+[![Live Demo](https://img.shields.io/badge/demo-live-success)](https://pool8.live)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-61dafb.svg)](https://reactjs.org/)
@@ -48,10 +48,10 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/sudokuza-live.git
+git clone https://github.com/yourusername/pool8-live.git
 
 # Navigate to project directory
-cd sudokuza-live
+cd pool8-live
 
 # Install dependencies
 npm install
@@ -92,7 +92,7 @@ npm run preview
 ## 📁 Project Structure
 
 ```
-sudokuza-live/
+pool8-live/
 ├── app/                 # Next.js App Router
 │   ├── layout.tsx       # Root layout & meta tags
 │   ├── page.tsx         # Home page (Server/SSG)
@@ -113,7 +113,7 @@ sudokuza-live/
 
 1. **Start Game**: Click "Play Now" on the landing page
 2. **Select Level**: Choose from 150 progressive difficulty levels
-3. **Solve Puzzle**: Fill the grid following Sudoku rules
+3. **Solve Puzzle**: Fill the grid following pool8.live rules
 4. **Use Hints**: Spend credits for helpful hints (costs 10 credits)
 5. **Earn Points**: Complete levels to earn points and climb the leaderboard
 6. **Buy Credits**: Purchase credit packs to unlock more hints
@@ -132,7 +132,7 @@ Access the Admin Dashboard (double-click the logo) to customize:
 Create a `.env` file for custom configuration:
 
 ```env
-VITE_APP_NAME=sudokuza.live
+VITE_APP_NAME=pool8.live
 VITE_PRIMARY_COLOR=#4f46e5
 ```
 
@@ -233,14 +233,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 💡 Support
 
 For questions or issues:
-- **Email**: support@sudokuza.live
-- **GitHub Issues**: [Create an issue](https://github.com/yourusername/sudokuza-live/issues)
+- **Email**: support@pool8.live
+- **GitHub Issues**: [Create an issue](https://github.com/yourusername/pool8-live/issues)
 
 ---
 
 ## 🌟 Acknowledgments
 
-- Sudoku puzzle generation algorithm
+- pool8.live puzzle generation algorithm
 - Recharts for beautiful analytics
 - Lucide React for crisp icons
 - Tailwind CSS for rapid styling
@@ -249,4 +249,4 @@ For questions or issues:
 
 **Built with ❤️ for puzzle enthusiasts worldwide**
 
-[Live Demo](https://sudokuza.live) • [Report Bug](https://github.com/yourusername/sudokuza-live/issues) • [Request Feature](https://github.com/yourusername/sudokuza-live/issues)
+[Live Demo](https://pool8.live) • [Report Bug](https://github.com/yourusername/pool8-live/issues) • [Request Feature](https://github.com/yourusername/pool8-live/issues)

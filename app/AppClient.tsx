@@ -6,7 +6,7 @@ import {
   RefreshCw, Hourglass, AlertCircle, Users, Star, Wallet, Plus, RotateCcw,
   Volume2, VolumeX, Music, Music2, Settings, X, MessageCircle, CheckCircle, Gift
 } from 'lucide-react';
-import SudokuGrid from '../components/SudokuGrid';
+import PoolTable from '../components/PoolTable';
 import Controls from '../components/Controls';
 import LevelSelector from '../components/LevelSelector';
 import Leaderboard from '../components/Leaderboard';
@@ -16,15 +16,16 @@ import PolicyPages from '../components/PolicyPages';
 import ChatGroup from '../components/ChatGroup';
 import ReviewsPage from '../components/ReviewsPage';
 import ProfilePage from '../components/ProfilePage';
-import PurchaseModal from '../components/PurchaseModal';
 import PaymentPage from '../components/PaymentPage';
 import AdminDashboard from '../components/AdminDashboard';
 import ReferralPage from '../components/ReferralPage';
 import PWAInstallPrompt from '../components/PWAInstallPrompt';
-import KidsMode from '../components/KidsMode';
-import { SudokuState, UserProfile, LeaderboardEntry, View, ChatMessage, Purchase, CreditPack, GlobalSettings } from '../types';
-import { LEVELS, TOTAL_LEVELS, CREDIT_PACKS } from '../constants';
-import { generatePuzzle } from '../services/sudokuLogic';
+// import KidsMode from '../components/KidsMode';
+import ShopifyStore from '../components/ShopifyStore';
+import { PoolGameState, UserProfile, LeaderboardEntry, View, ChatMessage, Purchase, CreditPack, GlobalSettings, PoolLevelData, PoolBall } from '../types';
+import { LEVELS, TOTAL_LEVELS, CREDIT_PACKS, OPPONENT_NAMES } from '../constants';
+import { updatePhysics, initializeRack, TABLE_WIDTH, TABLE_HEIGHT, BALL_RADIUS } from '../services/poolPhysics';
+import { calculateOpponentShot } from '../services/opponentService';
 import { audioService } from '../services/audioService';
 import { generateReferralCode } from '../utils/referralUtils';
 import { auth, db } from '../services/firebase';
@@ -54,7 +55,7 @@ const DEFAULT_SETTINGS: GlobalSettings = {
 const App: React.FC = () => {
   const [view, setView] = useState<View>('landing');
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [state, setState] = useState<SudokuState | null>(null);
+  const [state, setState] = useState<PoolGameState | null>(null);
   const [showLevelSelector, setShowLevelSelector] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -394,26 +395,40 @@ const App: React.FC = () => {
 
   const initLevel = (levelId: number) => {
     const levelData = LEVELS.find(l => l.id === levelId) || LEVELS[0];
-    const { initial, solution } = generatePuzzle(levelData.id, levelData.clues);
-    let timeLimit = 20 * 60;
-    if (levelData.difficulty === 'Medium') timeLimit = 15 * 60;
-    else if (levelData.difficulty === 'Hard') timeLimit = 12 * 60;
-    else if (levelData.difficulty === 'Expert') timeLimit = 10 * 60;
+    const balls = initializeRack(levelData.id);
+    const cueBall: PoolBall = {
+      id: 0,
+      x: TABLE_WIDTH * 0.25,
+      y: TABLE_HEIGHT / 2,
+      vx: 0,
+      vy: 0,
+      radius: BALL_RADIUS,
+      type: 'cue',
+      number: 0,
+      isPotted: false,
+      color: '#ffffff',
+    };
+
+    let timeLimit = 300; // 5 minutes standard for Pool matches
 
     setState({
-      board: initial.map(row => [...row]),
-      initialBoard: initial.map(row => [...row]),
-      solution,
-      notes: Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set<number>())),
-      selectedCell: null,
-      mistakes: 0,
-      maxMistakes: 3,
-      isComplete: false,
+      balls,
+      cueBall,
+      cueTarget: null,
+      cuePower: 0,
+      gameState: 'aiming',
+      currentTurn: 'player',
+      playerType: null,
+      opponentType: null,
+      opponentName: OPPONENT_NAMES[Math.floor(Math.random() * OPPONENT_NAMES.length)],
+      score: 0,
+      shots: 0,
+      maxShots: levelData.maxShots,
+      pottedBalls: [],
       level: levelId,
       timer: 0,
       timeLeft: timeLimit,
       isPaused: false,
-      history: [initial.map(row => [...row])]
     });
     setLastGainedPoints(0);
     setShowLevelSelector(false);
@@ -429,61 +444,140 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!state || state.isPaused || state.isComplete || state.timeLeft <= 0 || isLevelChanging) return;
+    if (!state || state.isPaused || state.gameState !== 'moving') return;
+
+    let frameId: number;
+    const loop = () => {
+      setState(s => {
+        if (!s || s.isPaused || s.gameState !== 'moving') return s;
+        const nextState = updatePhysics(s);
+
+        // Check for win/loss
+        const allTargetBallsPotted = nextState.balls.every(b => b.isPotted);
+
+        if (nextState.gameState === 'aiming') {
+          // If balls stopped moving, check if we need to switch turns or assign types
+          const pottedThisTurn = nextState.pottedBalls.length - s.pottedBalls.length;
+          const pottedCueBall = nextState.pottedBalls.find(pb => pb.id === 0 && !s.pottedBalls.find(sp => sp.id === 0));
+
+          let nextTurn = s.currentTurn;
+          let playerType = s.playerType;
+          let opponentType = s.opponentType;
+
+          if (pottedCueBall) {
+            // Scratch: Switch turns and place cue ball back
+            nextTurn = s.currentTurn === 'player' ? 'opponent' : 'player';
+            nextState.cueBall.x = TABLE_WIDTH * 0.25;
+            nextState.cueBall.y = TABLE_HEIGHT / 2;
+            nextState.cueBall.vx = 0;
+            nextState.cueBall.vy = 0;
+            nextState.cueBall.isPotted = false;
+            // Remove cue ball from potted list
+            nextState.pottedBalls = nextState.pottedBalls.filter(pb => pb.id !== 0);
+          } else if (pottedThisTurn > 0) {
+            // Something was potted
+            const newlyPotted = nextState.pottedBalls.filter(pb => !s.pottedBalls.find(sp => sp.id === pb.id));
+
+            // Assign types if none
+            if (!playerType) {
+              const firstValuable = newlyPotted.find(b => b.type === 'solid' || b.type === 'stripe');
+              if (firstValuable) {
+                if (s.currentTurn === 'player') {
+                  playerType = firstValuable.type as 'solid' | 'stripe';
+                  opponentType = playerType === 'solid' ? 'stripe' : 'solid';
+                } else {
+                  opponentType = firstValuable.type as 'solid' | 'stripe';
+                  playerType = opponentType === 'solid' ? 'stripe' : 'solid';
+                }
+              }
+            }
+
+            // Check if player/bot potted their own ball to keep turn
+            const targetType = s.currentTurn === 'player' ? playerType : opponentType;
+            const pottedOwn = newlyPotted.some(b => b.type === targetType);
+
+            if (!pottedOwn) {
+              nextTurn = s.currentTurn === 'player' ? 'opponent' : 'player';
+            }
+          } else {
+            // Nothing potted: Switch turns
+            nextTurn = s.currentTurn === 'player' ? 'opponent' : 'player';
+          }
+
+          nextState.currentTurn = nextTurn;
+          nextState.playerType = playerType;
+          nextState.opponentType = opponentType;
+
+          // Win/Loss check
+          if (allTargetBallsPotted) {
+            const points = (settings.pointsPerLevel || 100) + (nextState.timeLeft * (settings.timeBonusMultiplier || 2));
+            setLastGainedPoints(points);
+            if (userProfile) {
+              const updatedProfile = { ...userProfile, totalScore: userProfile.totalScore + points };
+              setUserProfile(updatedProfile);
+              syncProgress(nextState.level, updatedProfile.totalScore);
+            }
+            setCompletedLevels(prev => [...new Set([...prev, nextState.level])]);
+            return { ...nextState, gameState: 'won' };
+          }
+
+          if (nextTurn === 'opponent') {
+            return { ...nextState, gameState: 'opponent_thinking' };
+          }
+        }
+
+        if (nextState.shots >= nextState.maxShots && nextState.gameState === 'aiming' && !allTargetBallsPotted) {
+          return { ...nextState, gameState: 'lost' };
+        }
+
+        return nextState;
+      });
+      frameId = requestAnimationFrame(loop);
+    };
+    frameId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(frameId);
+  }, [state?.gameState, state?.isPaused]);
+
+  useEffect(() => {
+    if (state?.gameState === 'opponent_thinking' && !state.isPaused) {
+      const timer = setTimeout(() => {
+        const shot = calculateOpponentShot(state);
+        if (shot) {
+          handleStrike(shot.power, shot.angle);
+        } else {
+          // Fallback: switch back or skip
+          setState(s => s ? { ...s, gameState: 'aiming', currentTurn: 'player' } : null);
+        }
+      }, 1500 + Math.random() * 1000); // 1.5 - 2.5s "thinking" time
+      return () => clearTimeout(timer);
+    }
+  }, [state?.gameState, state?.isPaused]);
+
+  useEffect(() => {
+    if (!state || state.isPaused || state.gameState === 'moving' || state.gameState === 'won' || state.gameState === 'lost' || isLevelChanging) return;
     const interval = setInterval(() => {
       setState(s => s ? { ...s, timer: s.timer + 1, timeLeft: Math.max(0, s.timeLeft - 1) } : null);
     }, 1000);
     return () => clearInterval(interval);
-  }, [state?.isPaused, state?.isComplete, state?.timeLeft, isLevelChanging]);
+  }, [state?.isPaused, state?.gameState, isLevelChanging]);
 
-  const updateCell = (num: number) => {
-    if (!state || !state.selectedCell || state.isComplete || state.isPaused || state.timeLeft <= 0 || state.mistakes >= state.maxMistakes) return;
-    const [r, c] = state.selectedCell;
-    if (state.initialBoard[r][c] !== null) return;
+  const handleStrike = (power: number, angle: number) => {
+    if (!state || state.gameState !== 'aiming' || state.isPaused) return;
 
-    if (notesMode) {
-      setState(s => {
-        if (!s) return null;
-        const newNotes = s.notes.map((row, ri) => row.map((cellSet, ci) => {
-          if (ri === r && ci === c) {
-            const nextSet = new Set(cellSet);
-            if (nextSet.has(num)) nextSet.delete(num);
-            else nextSet.add(num);
-            return nextSet;
-          }
-          return cellSet;
-        }));
-        return { ...s, notes: newNotes };
-      });
-      return;
-    }
+    if (userProfile?.soundEnabled) audioService.playClick(); // Replace with strike sound later
 
     setState(s => {
       if (!s) return null;
-      if (s.board[r][c] === num) return s;
-      const isCorrect = s.solution[r][c] === num;
-      let newMistakes = s.mistakes;
-      if (!isCorrect) {
-        newMistakes += 1;
-        if (userProfile?.soundEnabled) audioService.playIncorrect();
-      } else {
-        if (userProfile?.soundEnabled) audioService.playCorrect();
-      }
-      const newBoard = s.board.map((row, ri) => row.map((val, ci) => ri === r && ci === c ? num : val));
-      const isComplete = newBoard.every((row, ri) => row.every((val, ci) => val === s.solution[ri][ci]));
-      if (isComplete) {
-        const points = settings.pointsPerLevel + (s.timeLeft * settings.timeBonusMultiplier);
-        setLastGainedPoints(points);
-        if (userProfile) {
-          const updatedProfile = { ...userProfile, totalScore: userProfile.totalScore + points };
-          setUserProfile(updatedProfile);
+      const cueBall = { ...s.cueBall };
+      cueBall.vx = -Math.cos(angle) * power;
+      cueBall.vy = -Math.sin(angle) * power;
 
-          // Sync with Supabase
-          syncProgress(s.level, updatedProfile.totalScore);
-        }
-        setCompletedLevels(prev => [...new Set([...prev, s.level])]);
-      }
-      return { ...s, board: newBoard, mistakes: newMistakes, isComplete, history: [...(s.history || []), newBoard] };
+      return {
+        ...s,
+        cueBall,
+        gameState: 'moving',
+        shots: s.shots + 1
+      };
     });
   };
 
@@ -523,25 +617,13 @@ const App: React.FC = () => {
   const handleAction = (action: string) => {
     if (!state || isLevelChanging) return;
     if (userProfile?.soundEnabled) audioService.playClick();
-    if (action === 'notes') setNotesMode(!notesMode);
-    else if (action === 'pause') setState({ ...state, isPaused: !state.isPaused });
-    else if (action === 'undo' && state.history.length > 1) {
-      const h = [...state.history]; h.pop();
-      setState({ ...state, board: h[h.length - 1], history: h });
-    } else if (action === 'reset') transitionToLevel(state.level);
-    else if (action === 'erase') {
-      const [r, c] = state.selectedCell || [-1, -1];
-      if (r !== -1 && state.initialBoard[r][c] === null) {
-        const nb = state.board.map((row, ri) => row.map((v, ci) => ri === r && ci === c ? null : v));
-        setState({ ...state, board: nb, history: [...state.history, nb] });
-      }
-    } else if (action === 'reveal') {
+    if (action === 'pause') setState({ ...state, isPaused: !state.isPaused });
+    else if (action === 'reset') transitionToLevel(state.level);
+    else if (action === 'reveal') {
       if (!userProfile || userProfile.credits < 10) return alert("No credits!");
-      const [r, c] = state.selectedCell || [-1, -1];
-      if (r !== -1 && state.initialBoard[r][c] === null) {
-        setUserProfile({ ...userProfile, credits: userProfile.credits - 10 });
-        updateCell(state.solution[r][c]);
-      }
+      // Logic for hint: e.g., auto-pocket a ball?
+      alert("HINT: Try to hit the balls with moderate power!");
+      setUserProfile({ ...userProfile, credits: userProfile.credits - 10 });
     }
   };
 
@@ -586,7 +668,6 @@ const App: React.FC = () => {
       );
     }
     if (view === 'referral' && userProfile) return <ReferralPage user={userProfile} onBack={() => setView('game')} />;
-    if (view === 'kids') return <KidsMode onBack={() => setView('landing')} />;
     if (view === 'admin') {
       return (
         <AdminDashboard
@@ -619,7 +700,8 @@ const App: React.FC = () => {
 
     if (!state) return null;
 
-    const isGameOver = state.mistakes >= state.maxMistakes || state.timeLeft <= 0;
+    const isGameOver = state.gameState === 'lost' || state.timeLeft <= 0;
+    const isWin = state.gameState === 'won';
 
     return (
       <div className="min-h-screen bg-[#f8fafc] text-slate-900 pb-20">
@@ -683,9 +765,9 @@ const App: React.FC = () => {
               <div className="text-2xl font-black">{userProfile?.totalScore.toLocaleString()}</div>
             </div>
             <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm flex-1 text-center">
-              <span className="text-[9px] font-black text-slate-400 uppercase">Mistakes</span>
-              <div className="flex justify-center gap-1 mt-1">
-                {[1, 2, 3].map(i => <Heart key={i} size={16} fill={i <= state.mistakes ? 'none' : 'currentColor'} className={i <= state.mistakes ? 'text-slate-200' : 'text-rose-500'} />)}
+              <span className="text-[9px] font-black text-slate-400 uppercase">Shots Used</span>
+              <div className="text-2xl font-black mt-1">
+                {state.shots} / {state.maxShots}
               </div>
             </div>
           </div>
@@ -704,17 +786,21 @@ const App: React.FC = () => {
                 <button onClick={() => transitionToLevel(state.level)} className="mt-6 px-8 py-3 bg-white text-rose-600 rounded-xl font-black">RETRY</button>
               </div>
             )}
-            {state.isComplete && (
+            {isWin && (
               <div className="absolute inset-0 z-30 bg-emerald-600/90 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center text-white p-10 text-center">
                 <Trophy size={64} className="mb-4 text-amber-400" />
-                <h3 className="text-3xl font-black">WINNER! +{lastGainedPoints}</h3>
-                <button onClick={() => transitionToLevel(state.level + 1 > TOTAL_LEVELS ? 1 : state.level + 1)} className="mt-6 px-8 py-3 bg-white text-emerald-600 rounded-xl font-black">NEXT LEVEL</button>
+                <h3 className="text-3xl font-black">TOURNAMENT WON! +{lastGainedPoints}</h3>
+                <button onClick={() => transitionToLevel(state.level + 1 > TOTAL_LEVELS ? 1 : state.level + 1)} className="mt-6 px-8 py-3 bg-white text-emerald-600 rounded-xl font-black">NEXT MATCH</button>
               </div>
             )}
-            <SudokuGrid state={state} onCellClick={(r, c) => setState({ ...state!, selectedCell: [r, c] })} />
+            <PoolTable
+              state={state}
+              onStrike={handleStrike}
+              onAim={(angle) => setState(s => s ? { ...s, cueTarget: { x: Math.cos(angle), y: Math.sin(angle) } } : null)}
+            />
           </div>
 
-          <Controls onNumberClick={updateCell} onAction={handleAction} notesMode={notesMode} canUndo={state.history.length > 1} />
+          <Controls onStrike={() => { }} onAction={handleAction} canUndo={false} />
         </main>
       </div>
     );
@@ -798,12 +884,25 @@ const App: React.FC = () => {
       )}
 
       {showPurchaseModal && (
-        <PurchaseModal
+        <ShopifyStore
           onClose={() => setShowPurchaseModal(false)}
-          onSelectPack={(pack) => {
-            setSelectedPack(pack);
+          onPurchaseSuccess={(credits) => {
+            if (userProfile) {
+              const newCredits = userProfile.credits + credits;
+              setUserProfile({ ...userProfile, credits: newCredits });
+              syncCredits(newCredits);
+              // Add to purchase history mock
+              const mockPack: CreditPack = {
+                id: 'shopify-item',
+                price: 0,
+                qty: credits,
+                amount: `$${credits / 50}`,
+                pack: 'Shopify Pack',
+                bonus: 'Premium Item'
+              };
+              recordPurchase(mockPack);
+            }
             setShowPurchaseModal(false);
-            setView('payment');
           }}
         />
       )}

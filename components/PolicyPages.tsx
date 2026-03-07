@@ -31,7 +31,7 @@ const PolicyPages: React.FC<PolicyProps> = ({ type, onBack }) => {
             <div className="space-y-12 text-slate-500 leading-relaxed font-medium">
               <section>
                 <h3 className="text-xl font-black text-slate-800 mb-4 uppercase tracking-tight">1. Data Collection</h3>
-                <p>At sudokas.live, your privacy is our priority. We collect only the information necessary for your gaming experience: Username, Email, and level progress.</p>
+                <p>At pool8.live, your privacy is our priority. We collect only the information necessary for your gaming experience: Username, Email, and level progress.</p>
               </section>
               <section>
                 <h3 className="text-xl font-black text-slate-800 mb-4 uppercase tracking-tight">2. Credit Transactions</h3>
@@ -52,7 +52,7 @@ const PolicyPages: React.FC<PolicyProps> = ({ type, onBack }) => {
         {type === 'terms' && (
           <article className="bg-white p-8 md:p-16 rounded-[3rem] shadow-xl border border-slate-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <h1 className="text-5xl font-black mb-8 uppercase tracking-tighter text-slate-900">Terms of Use</h1>
-            <p className="font-bold text-slate-400 mb-12 uppercase tracking-widest text-xs">SudokasLive Community Rules</p>
+            <p className="font-bold text-slate-400 mb-12 uppercase tracking-widest text-xs">Pool8Live Community Rules</p>
             <div className="space-y-12 text-slate-500 leading-relaxed font-medium">
               <section>
                 <h3 className="text-xl font-black text-slate-800 mb-4 uppercase tracking-tight">1. License of Use</h3>
@@ -64,11 +64,11 @@ const PolicyPages: React.FC<PolicyProps> = ({ type, onBack }) => {
               </section>
               <section>
                 <h3 className="text-xl font-black text-slate-800 mb-4 uppercase tracking-tight">3. Player Conduct</h3>
-                <p>The use of automation software (bots) to solve grids and artificially climb the global ranking is strictly prohibited and will result in a permanent ban.</p>
+                <p>The use of unauthorized automation or unfair advantage software to climb the global ranking is strictly prohibited and will result in a permanent account suspension.</p>
               </section>
               <section>
                 <h3 className="text-xl font-black text-slate-800 mb-4 uppercase tracking-tight">4. Limitation of Liability</h3>
-                <p>sudokas.live is not responsible for progress loss resulting from technical issues on user devices or internet connection failures.</p>
+                <p>pool8.live is not responsible for progress loss resulting from technical issues on user devices or internet connection failures.</p>
               </section>
             </div>
           </article>

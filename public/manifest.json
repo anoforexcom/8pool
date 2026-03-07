@@ -1,7 +1,7 @@
 {
-    "name": "sudokas.live - Premium Sudoku Game",
-    "short_name": "SudokasLive",
-    "description": "Play 150 progressive Sudoku levels with hints, leaderboards, and achievements. Premium brain training game.",
+    "name": "pool8.live - Premium 8 Ball Pool Game",
+    "short_name": "Pool8Live",
+    "description": "Play 150 progressive 8 Ball Pool tournament levels with championships, leaderboards, and achievements. Premium arcade game.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#f8fafc",
@@ -14,7 +14,7 @@
     ],
     "icons": [
         {
-            "src": "/favicon.svg",
+            "src": "/logo.png",
             "sizes": "any",
             "type": "image/svg+xml",
             "purpose": "any maskable"
@@ -55,7 +55,7 @@
         {
             "name": "Play Game",
             "short_name": "Play",
-            "description": "Start playing Sudoku",
+            "description": "Start playing Pool 8",
             "url": "/",
             "icons": [
                 {
