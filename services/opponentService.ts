@@ -43,8 +43,8 @@ export const calculateOpponentShot = (state: PoolGameState): { power: number; an
     const impactX = target.x + (dirX / dirDist) * (cueBall.radius * 2);
     const impactY = target.y + (dirY / dirDist) * (cueBall.radius * 2);
 
-    const dx = impactX - cueBall.x;
-    const dy = impactY - cueBall.y;
+    const dx = cueBall.x - impactX;
+    const dy = cueBall.y - impactY;
     const angleToImpact = Math.atan2(dy, dx);
 
     // Human-like error simulation

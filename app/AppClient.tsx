@@ -562,7 +562,7 @@ const App: React.FC = () => {
   }, [state?.isPaused, state?.gameState, isLevelChanging]);
 
   const handleStrike = (power: number, angle: number) => {
-    if (!state || state.gameState !== 'aiming' || state.isPaused) return;
+    if (!state || (state.gameState !== 'aiming' && state.gameState !== 'opponent_thinking') || state.isPaused) return;
 
     if (userProfile?.soundEnabled) audioService.playClick(); // Replace with strike sound later
 
