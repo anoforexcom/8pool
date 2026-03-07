@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { db } from '@/lib/firebase'; // Assumindo este path para o firebase admin ou client
+import { db } from '../../../../services/firebase';
 import { doc, updateDoc, increment, getDoc } from 'firebase/firestore';
 
 // O segredo do webhook do Shopify deve estar nas env vars
