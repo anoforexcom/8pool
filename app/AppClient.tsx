@@ -549,9 +549,12 @@ const App: React.FC = () => {
           }
         }
 
+        // REMOVED: Shot limit is now just a stat, not a loss condition
+        /*
         if (nextState.shots >= nextState.maxShots && nextState.gameState === 'aiming' && !allTargetBallsPotted) {
           return { ...nextState, gameState: 'lost' };
         }
+        */
 
         return nextState;
       });

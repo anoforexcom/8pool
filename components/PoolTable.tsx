@@ -140,6 +140,30 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
     };
 
     useEffect(() => {
+        const handleWindowGlobalMove = (e: MouseEvent) => {
+            const rect = canvasRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Update current mouse for drawing
+            setCurrentMouse({ x, y });
+
+            // If not dragging, update aiming angle
+            if (!isDragging && state.gameState === 'aiming' && state.cueBall) {
+                const dx = x - state.cueBall.x;
+                const dy = y - state.cueBall.y;
+                onAim(Math.atan2(dy, dx));
+            }
+        };
+
+        window.addEventListener('mousemove', handleWindowGlobalMove);
+        return () => {
+            window.removeEventListener('mousemove', handleWindowGlobalMove);
+        };
+    }, [isDragging, state.gameState, state.cueBall]);
+
+    useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -206,18 +230,7 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
-        if (isDragging) return; // Handled by window listener
-        const rect = canvasRef.current?.getBoundingClientRect();
-        if (!rect) return;
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        setCurrentMouse({ x, y });
-
-        if (state.cueBall) {
-            const dx = x - state.cueBall.x;
-            const dy = y - state.cueBall.y;
-            onAim(Math.atan2(dy, dx));
-        }
+        // Selection handled by global window listener to avoid "edge walls"
     };
 
     // Calculate HTML Cue Stick Position and Angle

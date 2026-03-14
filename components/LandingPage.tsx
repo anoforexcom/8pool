@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { LayoutGrid, CheckCircle, Star, ChevronDown, ShieldCheck, Zap, HelpCircle, Menu, X, Trophy, ChevronUp, Quote, Award, Brain, Rocket, Users2, Sparkles, Target, Mail, Phone, Facebook, Twitter, Instagram, Linkedin, CreditCard, ArrowRight } from 'lucide-react';
+import { LayoutGrid, CheckCircle, Star, ChevronDown, ShieldCheck, Zap, HelpCircle, Menu, X, Trophy, ChevronUp, Quote, Award, Brain, Rocket, Users2, Sparkles, Target, Mail, Phone, Facebook, Twitter, Instagram, Linkedin, CreditCard, ArrowRight, ChevronRight } from 'lucide-react';
 import { TOTAL_LEVELS, TESTIMONIALS, CREDIT_PACKS } from '../constants';
 import { VisaIcon, MastercardIcon, PayPalIcon, MBWayIcon, MultibancoIcon } from './PaymentIcons';
 
@@ -71,6 +71,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onNavigate, onAdmin,
             <a href="#how-it-works" className="hover:text-indigo-600 transition-colors">How It Works</a>
             <button onClick={() => onNavigate('ranking')} className="hover:text-indigo-600 transition-colors uppercase flex items-center gap-1"><Award size={14} /> Ranking</button>
             <button onClick={() => onNavigate('reviews')} className="hover:text-indigo-600 transition-colors">REVIEWS</button>
+            <a href="/blog" className="hover:text-indigo-600 transition-colors">Blog</a>
             <a href="#pricing" className="hover:text-indigo-600 transition-colors">Pricing</a>
             <button onClick={() => onNavigate('support')} className="hover:text-indigo-600 transition-colors uppercase">Support</button>
             <button onClick={() => onStart()} className="bg-indigo-600 text-white px-6 py-2 rounded-full font-bold hover:bg-indigo-700 transition-all shadow-md active:scale-95">
@@ -88,6 +89,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onNavigate, onAdmin,
             <div className="flex flex-col p-6 gap-6 text-sm font-bold text-slate-600 uppercase tracking-widest">
               <a href="#how-it-works" onClick={toggleMobileMenu} className="hover:text-indigo-600 border-b border-slate-50 pb-2">How It Works</a>
               <button onClick={() => { onNavigate('ranking'); toggleMobileMenu(); }} className="text-left hover:text-indigo-600 border-b border-slate-50 pb-2 uppercase">Global Ranking</button>
+              <a href="/blog" onClick={toggleMobileMenu} className="hover:text-indigo-600 border-b border-slate-50 pb-2">Blog</a>
               <a href="#pricing" onClick={toggleMobileMenu} className="hover:text-indigo-600 border-b border-slate-50 pb-2">Pricing</a>
               <button onClick={() => { onNavigate('support'); toggleMobileMenu(); }} className="text-left hover:text-indigo-600 border-b border-slate-50 pb-2 uppercase">Support</button>
               <button onClick={() => { onStart(); toggleMobileMenu(); }} className="bg-indigo-600 text-white py-4 rounded-2xl font-black text-center shadow-lg active:scale-95">
@@ -375,6 +377,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onNavigate, onAdmin,
               <li className="flex items-center gap-3">
                 <Phone size={16} className="text-indigo-600" />
                 <span>+1 (555) 123-4567</span>
+              </li>
+              <li className="flex items-center gap-2 group cursor-pointer hover:text-indigo-600 transition-colors">
+                <ChevronRight size={14} className="text-indigo-500 group-hover:translate-x-1 transition-transform" />
+                <a href="/blog">Blog & News</a>
               </li>
             </ul>
           </div>

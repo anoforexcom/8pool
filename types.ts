@@ -105,6 +105,16 @@ export interface PoolBall {
   color: string;
 }
 
+export interface Post {
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  image: string;
+  date: string;
+  category: string;
+}
+
 export interface PoolGameState {
   balls: PoolBall[];
   cueBall: PoolBall;
