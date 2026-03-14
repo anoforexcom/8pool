@@ -653,7 +653,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                         </div>
                         <div className="flex flex-col">
                             <span className="font-black text-lg text-slate-800 uppercase tracking-tight leading-none">Admin</span>
-                            <span className="text-[8px] font-bold text-slate-400 uppercase tracking-[0.3em] truncate max-w-[120px]">{localSettings.appName || 'Sudoku Pro'}</span>
+                            <span className="text-[8px] font-bold text-slate-400 uppercase tracking-[0.3em] truncate max-w-[120px]">{localSettings.appName || 'Pool 8 Live'}</span>
                         </div>
                     </div>
 

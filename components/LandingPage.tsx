@@ -117,12 +117,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onNavigate, onAdmin,
                 VIEW RANKINGS
               </button>
             </div>
-            <button
-              onClick={() => onNavigate('kids')}
-              className="mt-4 flex items-center gap-2 text-purple-600 font-black text-lg hover:text-purple-700 transition-colors"
-            >
-              <span className="text-2xl">🐻</span> Kids Mode (Ages 4-10)
-            </button>
             <div className="mt-12 flex flex-col sm:flex-row items-center gap-8 text-slate-400 font-medium">
               <div className="flex items-center gap-2"><ShieldCheck size={20} className="text-emerald-500" /> Secure Progress</div>
               <div className="flex items-center gap-2"><Zap size={20} className="text-amber-500" /> Professional Cues</div>
@@ -135,7 +129,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onNavigate, onAdmin,
               <div className="absolute inset-0 bg-indigo-600/20 blur-3xl rounded-full transform translate-y-4"></div>
               <img
                 src="/hero-bg.png"
-                alt="Sudoku App Interface"
+                alt="Pool 8 Live App Interface"
                 className="relative rounded-3xl shadow-2xl border-4 border-white transform rotate-2 hover:rotate-0 transition-transform duration-500 max-w-full w-[500px]"
               />
               <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl animate-bounce">
