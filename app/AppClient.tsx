@@ -600,7 +600,8 @@ const App: React.FC = () => {
         cueBall,
         gameState: 'moving',
         shots: s.shots + 1,
-        turnStartPottedCount: s.pottedBalls.length
+        turnStartPottedCount: s.pottedBalls.length,
+        useSuperAim: false
       };
     });
   };
