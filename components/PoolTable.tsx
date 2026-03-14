@@ -109,8 +109,20 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
             ctx.lineWidth = 1; // Thinner
             ctx.moveTo(state.cueBall.x, state.cueBall.y);
             ctx.lineTo(state.cueBall.x - Math.cos(angle) * 800, state.cueBall.y - Math.sin(angle) * 800); // Longer trajectory
-            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+            ctx.strokeStyle = state.useSuperAim ? 'rgba(34, 197, 94, 0.8)' : 'rgba(255,255,255,0.3)';
+            ctx.lineWidth = state.useSuperAim ? 1.5 : 1;
             ctx.stroke();
+
+            if (state.useSuperAim) {
+                // Draw a circle at the far end to show "Ghost Ball" contact if we want, 
+                // but let's just make the line very solid for now
+                ctx.setLineDash([]);
+                ctx.beginPath();
+                ctx.arc(state.cueBall.x - Math.cos(angle) * 150, state.cueBall.y - Math.sin(angle) * 150, BALL_RADIUS, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(34, 197, 94, 0.4)';
+                ctx.stroke();
+            }
+
             ctx.setLineDash([]);
             ctx.lineWidth = 1; // Reset
 
@@ -143,42 +155,69 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
         return () => window.cancelAnimationFrame(animationId);
     }, [state, currentMouse, isDragging]);
 
+    useEffect(() => {
+        if (isDragging) {
+            const handleWindowMouseMove = (e: MouseEvent) => {
+                const rect = canvasRef.current?.getBoundingClientRect();
+                if (!rect) return;
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                setCurrentMouse({ x, y });
+            };
+
+            const handleWindowMouseUp = (e: MouseEvent) => {
+                if (!dragStart || !currentMouse || !state.cueBall) {
+                    setIsDragging(false);
+                    setDragStart(null);
+                    return;
+                }
+
+                const dragDist = Math.min(Math.sqrt(Math.pow(currentMouse.x - dragStart.x, 2) + Math.pow(currentMouse.y - dragStart.y, 2)), 100);
+                const dx = currentMouse.x - state.cueBall.x;
+                const dy = currentMouse.y - state.cueBall.y;
+                const angle = Math.atan2(dy, dx);
+
+                if (dragDist > 5) {
+                    onStrike(dragDist / 5, angle);
+                }
+
+                setIsDragging(false);
+                setDragStart(null);
+            };
+
+            window.addEventListener('mousemove', handleWindowMouseMove);
+            window.addEventListener('mouseup', handleWindowMouseUp);
+            return () => {
+                window.removeEventListener('mousemove', handleWindowMouseMove);
+                window.removeEventListener('mouseup', handleWindowMouseUp);
+            };
+        }
+    }, [isDragging, dragStart, currentMouse, state.cueBall]);
+
     const handleMouseDown = (e: React.MouseEvent) => {
         if (state.gameState !== 'aiming') return;
         const rect = canvasRef.current?.getBoundingClientRect();
         if (!rect) return;
-        setDragStart({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        setDragStart({ x, y });
+        setCurrentMouse({ x, y });
         setIsDragging(true);
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
+        if (isDragging) return; // Handled by window listener
         const rect = canvasRef.current?.getBoundingClientRect();
         if (!rect) return;
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         setCurrentMouse({ x, y });
 
-        if (!isDragging && state.cueBall) {
+        if (state.cueBall) {
             const dx = x - state.cueBall.x;
             const dy = y - state.cueBall.y;
             onAim(Math.atan2(dy, dx));
         }
-    };
-
-    const handleMouseUp = (e: React.MouseEvent) => {
-        if (!isDragging || !dragStart || !currentMouse || !state.cueBall) return;
-
-        const dragDist = Math.min(Math.sqrt(Math.pow(currentMouse.x - dragStart.x, 2) + Math.pow(currentMouse.y - dragStart.y, 2)), 100);
-        const dx = currentMouse.x - state.cueBall.x;
-        const dy = currentMouse.y - state.cueBall.y;
-        const angle = Math.atan2(dy, dx);
-
-        if (dragDist > 5) {
-            onStrike(dragDist / 5, angle);
-        }
-
-        setIsDragging(false);
-        setDragStart(null);
     };
 
     // Calculate HTML Cue Stick Position and Angle
@@ -213,8 +252,6 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
                 height={TABLE_HEIGHT}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={() => setIsDragging(false)}
                 className="rounded bg-[#0a5c2e] cursor-crosshair"
             />
 

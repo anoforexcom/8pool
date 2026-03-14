@@ -121,6 +121,8 @@ export interface PoolGameState {
   pottedBalls: PoolBall[];
   turnStartPottedCount?: number;
   level: number;
+  difficulty?: string;
+  useSuperAim?: boolean;
   timer: number;
   timeLeft: number;
   isPaused: boolean;

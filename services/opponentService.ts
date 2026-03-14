@@ -48,12 +48,14 @@ export const calculateOpponentShot = (state: PoolGameState): { power: number; an
     const dy = cueBall.y - impactY;
     const angleToImpact = Math.atan2(dy, dx);
 
-    // Human-like error simulation
-    // Lower error magnitude as level increases (more "professional" opponents)
-    const levelDifficultyFactor = Math.max(0.1, 1 - (state.level / 150));
-    const errorMagnitude = 0.05 * levelDifficultyFactor;
-    const accuracyNoise = (Math.random() - 0.5) * errorMagnitude;
-    const powerJitter = 0.8 + (Math.random() * 0.4);
+    // Human-like error simulation based on difficulty labels
+    let baseError = 0.08; // Easy
+    if (state.difficulty === 'Medium') baseError = 0.05;
+    if (state.difficulty === 'Hard') baseError = 0.03;
+    if (state.difficulty === 'Expert') baseError = 0.012; // Pro level
+
+    const accuracyNoise = (Math.random() - 0.5) * baseError;
+    const powerJitter = 0.85 + (Math.random() * 0.3); // More consistent power
 
     return {
         power: 14 * powerJitter,

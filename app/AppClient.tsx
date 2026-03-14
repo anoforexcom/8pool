@@ -427,6 +427,7 @@ const App: React.FC = () => {
       pottedBalls: [],
       turnStartPottedCount: 0,
       level: levelId,
+      difficulty: levelData.difficulty,
       timer: 0,
       timeLeft: timeLimit,
       isPaused: false,
@@ -486,7 +487,9 @@ const App: React.FC = () => {
             if (remainingSuitBalls === 0 && !isFoul) {
               // Legitimate Win
               if (s.currentTurn === 'player') {
-                const points = (settings.pointsPerLevel || 100) + (nextState.timeLeft * (settings.timeBonusMultiplier || 2));
+                const shotsRemaining = Math.max(0, nextState.maxShots - nextState.shots);
+                const shotBonus = shotsRemaining * 50;
+                const points = (settings.pointsPerLevel || 100) + (nextState.timeLeft * (settings.timeBonusMultiplier || 2)) + shotBonus;
                 setLastGainedPoints(points);
 
                 if (userProfile) {
@@ -641,10 +644,13 @@ const App: React.FC = () => {
     if (action === 'pause') setState({ ...state, isPaused: !state.isPaused });
     else if (action === 'reset') transitionToLevel(state.level);
     else if (action === 'reveal') {
-      if (!userProfile || userProfile.credits < 10) return alert("No credits!");
-      // Logic for hint: e.g., auto-pocket a ball?
-      alert("HINT: Try to hit the balls with moderate power!");
+      if (!userProfile || userProfile.credits < 10) return alert("Não tens créditos suficientes!");
+
+      // Better Hint: Super Aim for the current turn
+      setState(s => s ? { ...s, useSuperAim: true } : null);
+
       setUserProfile({ ...userProfile, credits: userProfile.credits - 10 });
+      if (userProfile.soundEnabled) audioService.playClick();
     }
   };
 
