@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Timer, Heart, Trophy, ChevronRight, LayoutGrid, Pause, Play,
   RefreshCw, Hourglass, AlertCircle, Users, Star, Wallet, Plus, RotateCcw,
-  Volume2, VolumeX, Music, Music2, Settings, X, MessageCircle, CheckCircle, Gift
+  Volume2, VolumeX, Music, Music2, Settings, X, MessageCircle, CheckCircle, Gift, ArrowRight
 } from 'lucide-react';
 import PoolTable from '../components/PoolTable';
 import Controls from '../components/Controls';
@@ -735,10 +735,28 @@ const App: React.FC = () => {
     const isWin = state.gameState === 'won';
 
     return (
-      <div className="min-h-screen bg-[#f8fafc] text-slate-900 pb-20">
-        <header className="bg-white border-b border-slate-200 sticky top-0 z-40 px-4 py-3 shadow-sm">
-          <div className="max-w-5xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-3">
+      <div className="min-h-screen bg-[#f8fafc] text-slate-900 pb-20 overflow-x-hidden">
+        {/* Orientation Hint (Only visible in portrait on mobile) */}
+        <div className="fixed inset-0 z-[200] bg-slate-900/90 flex flex-col items-center justify-center text-white p-10 text-center landscape:hidden md:hidden">
+          <div className="w-20 h-20 border-4 border-white rounded-2xl animate-bounce flex items-center justify-center rotate-90">
+            <ArrowRight className="text-white" size={32} />
+          </div>
+          <h2 className="text-2xl font-black mt-8 uppercase">Rotate for better play!</h2>
+          <p className="text-slate-400 mt-4 font-medium">Tournament pool is best experienced in landscape mode.</p>
+          <button
+            onClick={(e) => {
+              const el = e.currentTarget.parentElement;
+              if (el) el.style.display = 'none';
+            }}
+            className="mt-10 text-xs font-bold text-slate-500 uppercase underline"
+          >
+            Continue in portrait anyway
+          </button>
+        </div>
+
+        <header className="bg-white border-b border-slate-200 sticky top-0 z-40 px-3 md:px-4 py-2 md:py-3 shadow-sm">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-2 md:gap-3">
               <button
                 onClick={() => {
                   if (adminTimerRef.current) clearTimeout(adminTimerRef.current);
@@ -759,46 +777,42 @@ const App: React.FC = () => {
                 className="bg-white p-0.5 rounded-xl text-white shadow-lg overflow-hidden flex items-center justify-center border border-slate-100"
                 title="Logo"
               >
-                <img src="/logo.png" alt="Pool8Live Logo" className="w-8 h-8 object-contain" />
+                <img src="/logo.png" alt="Pool8Live Logo" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
               </button>
-              <div onClick={() => setShowPurchaseModal(true)} className="flex flex-col text-xs font-black text-indigo-600 cursor-pointer hover:opacity-80 transition-opacity">
-                <span className="text-slate-400">CREDITS</span>
+              <div onClick={() => setShowPurchaseModal(true)} className="flex flex-col text-[10px] md:text-xs font-black text-indigo-600 cursor-pointer hover:opacity-80 transition-opacity">
+                <span className="text-slate-400 hidden md:block">CREDITS</span>
                 <div className="flex items-center gap-1"><Wallet size={12} /> {userProfile?.credits} <Plus size={10} className="bg-indigo-100 rounded-full p-0.5" /></div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="bg-slate-100 px-3 py-1.5 rounded-full font-mono font-black text-indigo-600 text-sm">
+            <div className="flex items-center gap-1 md:gap-2">
+              <div className="bg-slate-100 px-2 md:px-3 py-1 md:py-1.5 rounded-full font-mono font-black text-indigo-600 text-xs md:text-sm">
                 <Timer size={14} className="inline mr-1" /> {Math.floor(state.timeLeft / 60)}:{(state.timeLeft % 60).toString().padStart(2, '0')}
               </div>
-              <button onClick={() => setShowChat(true)} className="p-2 bg-slate-50 rounded-full relative">
-                <MessageCircle size={18} />
+              <button onClick={() => setShowChat(true)} className="p-1.5 md:p-2 bg-slate-50 rounded-full relative">
+                <MessageCircle size={16} className="md:w-[18px] md:h-[18px]" />
                 {unreadCount > 0 && <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] px-1 rounded-full">{unreadCount}</span>}
               </button>
-              <button onClick={() => setShowLeaderboard(true)} className="p-2 bg-slate-50 rounded-full"><Trophy size={18} /></button>
-              <button onClick={() => setView('referral')} className="p-2 bg-amber-50 text-amber-600 rounded-full hover:bg-amber-100 transition-colors" title="Convida Amigos">
-                <Gift size={18} />
-              </button>
-              <button onClick={() => setView('profile')} className="p-2 bg-slate-50 rounded-full hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
-                <div className="w-[18px] h-[18px] flex items-center justify-center text-xs overflow-hidden rounded-full">
-                  {userProfile?.avatar?.startsWith('http') ? <img src={userProfile.avatar} alt="P" className="w-full h-full object-cover" /> : (userProfile?.avatar || <Users size={18} />)}
+              <button onClick={() => setShowLeaderboard(true)} className="p-1.5 md:p-2 bg-slate-50 rounded-full"><Trophy size={16} className="md:w-[18px] md:h-[18px]" /></button>
+              <button onClick={() => setView('profile')} className="p-1.5 md:p-2 bg-slate-50 rounded-full hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
+                <div className="w-[16px] h-[16px] md:w-[18px] md:h-[18px] flex items-center justify-center text-xs overflow-hidden rounded-full">
+                  {userProfile?.avatar?.startsWith('http') ? <img src={userProfile.avatar} alt="P" className="w-full h-full object-cover" /> : (userProfile?.avatar || <Users size={16} className="md:w-[18px] md:h-[18px]" />)}
                 </div>
               </button>
-              <button onClick={() => setShowSettings(true)} className="p-2 bg-slate-50 rounded-full"><Settings size={18} /></button>
-              <button onClick={() => setShowLevelSelector(true)} className="bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-full font-black text-xs">LV. {state.level}</button>
+              <button onClick={() => setShowLevelSelector(true)} className="bg-indigo-50 text-indigo-700 px-2 md:px-3 py-1 md:py-1.5 rounded-full font-black text-[10px] md:text-xs">LV. {state.level}</button>
             </div>
           </div>
         </header>
 
-        <main className="max-w-2xl mx-auto mt-6 px-4 flex flex-col items-center gap-6">
+        <main className="max-w-4xl mx-auto mt-2 md:mt-6 px-2 md:px-4 flex flex-col items-center gap-3 md:gap-6">
           <div className="flex w-full gap-3">
-            <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm flex-1 text-center">
-              <span className="text-[9px] font-black text-slate-400 uppercase">Score</span>
-              <div className="text-2xl font-black">{userProfile?.totalScore.toLocaleString()}</div>
+            <div className="bg-white p-2 md:p-4 rounded-2xl md:rounded-3xl border border-slate-100 shadow-sm flex-1 text-center">
+              <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase">Score</span>
+              <div className="text-lg md:text-2xl font-black">{userProfile?.totalScore.toLocaleString()}</div>
             </div>
-            <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm flex-1 text-center">
-              <span className="text-[9px] font-black text-slate-400 uppercase">Shots Used</span>
-              <div className="text-2xl font-black mt-1">
-                {state.shots} / {state.maxShots}
+            <div className="bg-white p-2 md:p-4 rounded-2xl md:rounded-3xl border border-slate-100 shadow-sm flex-1 text-center">
+              <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase">Shots</span>
+              <div className="text-lg md:text-2xl font-black mt-0.5">
+                {state.shots}
               </div>
             </div>
           </div>

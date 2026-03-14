@@ -15,6 +15,21 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
     const [dragStart, setDragStart] = useState<{ x: number, y: number } | null>(null);
     const [currentMouse, setCurrentMouse] = useState<{ x: number, y: number } | null>(null);
 
+    // Coordinate Mapping: Maps screen event coordinates to internal 800x400 table coordinates
+    const getTableCoords = (clientX: number, clientY: number) => {
+        const rect = canvasRef.current?.getBoundingClientRect();
+        if (!rect) return { x: 0, y: 0 };
+
+        // Scale factor between internal 800x400 and actual displayed size
+        const scaleX = TABLE_WIDTH / rect.width;
+        const scaleY = TABLE_HEIGHT / rect.height;
+
+        return {
+            x: (clientX - rect.left) * scaleX,
+            y: (clientY - rect.top) * scaleY
+        };
+    };
+
     const draw = (ctx: CanvasRenderingContext2D) => {
         // Clear
         ctx.clearRect(0, 0, TABLE_WIDTH, TABLE_HEIGHT);
@@ -140,26 +155,23 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
     };
 
     useEffect(() => {
-        const handleWindowGlobalMove = (e: MouseEvent) => {
-            const rect = canvasRef.current?.getBoundingClientRect();
-            if (!rect) return;
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+        const handleWindowGlobalMove = (e: PointerEvent) => {
+            const coords = getTableCoords(e.clientX, e.clientY);
 
             // Update current mouse for drawing
-            setCurrentMouse({ x, y });
+            setCurrentMouse(coords);
 
             // If not dragging, update aiming angle
             if (!isDragging && state.gameState === 'aiming' && state.cueBall) {
-                const dx = x - state.cueBall.x;
-                const dy = y - state.cueBall.y;
+                const dx = coords.x - state.cueBall.x;
+                const dy = coords.y - state.cueBall.y;
                 onAim(Math.atan2(dy, dx));
             }
         };
 
-        window.addEventListener('mousemove', handleWindowGlobalMove);
+        window.addEventListener('pointermove', handleWindowGlobalMove);
         return () => {
-            window.removeEventListener('mousemove', handleWindowGlobalMove);
+            window.removeEventListener('pointermove', handleWindowGlobalMove);
         };
     }, [isDragging, state.gameState, state.cueBall]);
 
@@ -181,15 +193,12 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
 
     useEffect(() => {
         if (isDragging) {
-            const handleWindowMouseMove = (e: MouseEvent) => {
-                const rect = canvasRef.current?.getBoundingClientRect();
-                if (!rect) return;
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                setCurrentMouse({ x, y });
+            const handleWindowPointerMove = (e: PointerEvent) => {
+                const coords = getTableCoords(e.clientX, e.clientY);
+                setCurrentMouse(coords);
             };
 
-            const handleWindowMouseUp = (e: MouseEvent) => {
+            const handleWindowPointerUp = (e: PointerEvent) => {
                 if (!dragStart || !currentMouse || !state.cueBall) {
                     setIsDragging(false);
                     setDragStart(null);
@@ -209,28 +218,25 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
                 setDragStart(null);
             };
 
-            window.addEventListener('mousemove', handleWindowMouseMove);
-            window.addEventListener('mouseup', handleWindowMouseUp);
+            window.addEventListener('pointermove', handleWindowPointerMove);
+            window.addEventListener('pointerup', handleWindowPointerUp);
             return () => {
-                window.removeEventListener('mousemove', handleWindowMouseMove);
-                window.removeEventListener('mouseup', handleWindowMouseUp);
+                window.removeEventListener('pointermove', handleWindowPointerMove);
+                window.removeEventListener('pointerup', handleWindowPointerUp);
             };
         }
     }, [isDragging, dragStart, currentMouse, state.cueBall]);
 
-    const handleMouseDown = (e: React.MouseEvent) => {
+    const handlePointerDown = (e: React.PointerEvent) => {
         if (state.gameState !== 'aiming') return;
-        const rect = canvasRef.current?.getBoundingClientRect();
-        if (!rect) return;
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        setDragStart({ x, y });
-        setCurrentMouse({ x, y });
+        const coords = getTableCoords(e.clientX, e.clientY);
+        setDragStart(coords);
+        setCurrentMouse(coords);
         setIsDragging(true);
     };
 
-    const handleMouseMove = (e: React.MouseEvent) => {
-        // Selection handled by global window listener to avoid "edge walls"
+    const handlePointerMove = (e: React.PointerEvent) => {
+        // Handled by global window listener
     };
 
     // Calculate HTML Cue Stick Position and Angle
@@ -258,14 +264,14 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
     }
 
     return (
-        <div className="relative inline-block bg-slate-800 p-4 rounded-xl shadow-2xl border-4 border-slate-700 select-none touch-none">
+        <div className="relative w-full max-w-[800px] aspect-[2/1] bg-slate-800 p-2 md:p-4 rounded-xl shadow-2xl border-2 md:border-4 border-slate-700 select-none touch-none mx-auto overflow-hidden">
             <canvas
                 ref={canvasRef}
                 width={TABLE_WIDTH}
                 height={TABLE_HEIGHT}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                className="rounded bg-[#0a5c2e] cursor-crosshair"
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                className="w-full h-full rounded bg-[#0a5c2e] cursor-crosshair touch-none"
             />
 
             {/* HTML Overlay Cue Stick */}
@@ -273,13 +279,13 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
                 <div
                     className="absolute pointer-events-none"
                     style={{
-                        // 16px is the padding of the parent container
-                        left: `${htmlCueX + 16}px`,
-                        top: `${htmlCueY + 16}px`,
+                        // Responsive positioning for the indicator
+                        left: `calc((${htmlCueX} / ${TABLE_WIDTH}) * 100%)`,
+                        top: `calc((${htmlCueY} / ${TABLE_HEIGHT}) * 100%)`,
                         transform: `rotate(${htmlCueAngle}rad)`,
                         transformOrigin: 'left center',
-                        width: '400px', // Extra long stick
-                        height: '6px',
+                        width: '50%', // Responsive length
+                        height: '4px',
                         zIndex: 50,
                     }}
                 >
