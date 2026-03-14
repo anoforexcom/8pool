@@ -425,6 +425,7 @@ const App: React.FC = () => {
       shots: 0,
       maxShots: levelData.maxShots,
       pottedBalls: [],
+      turnStartPottedCount: 0,
       level: levelId,
       timer: 0,
       timeLeft: timeLimit,
@@ -456,8 +457,8 @@ const App: React.FC = () => {
         const allTargetBallsPotted = nextState.balls.every(b => b.isPotted);
 
         if (nextState.gameState === 'aiming') {
-          const newlyPotted = nextState.pottedBalls.filter(pb => !s.pottedBalls.find(sp => sp.id === pb.id));
-          const pottedCueBall = newlyPotted.find(pb => pb.type === 'cue');
+          const newlyPotted = nextState.pottedBalls.slice(s.turnStartPottedCount || 0);
+          const pottedCueBall = newlyPotted.find(pb => pb.type === 'cue') || nextState.cueBall.isPotted;
           const potted8Ball = newlyPotted.find(pb => pb.type === 'black');
 
           let nextTurn = s.currentTurn;
@@ -595,7 +596,8 @@ const App: React.FC = () => {
         ...s,
         cueBall,
         gameState: 'moving',
-        shots: s.shots + 1
+        shots: s.shots + 1,
+        turnStartPottedCount: s.pottedBalls.length
       };
     });
   };

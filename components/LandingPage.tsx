@@ -124,18 +124,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onNavigate, onAdmin,
             </div>
           </div>
 
-          <div className="relative z-10 flex justify-center md:justify-end">
-            <div className="relative">
+          <div className="relative z-10 flex justify-center md:justify-end mt-12 md:mt-0">
+            <div className="relative w-full max-w-2xl xl:max-w-3xl">
               <div className="absolute inset-0 bg-indigo-600/20 blur-3xl rounded-full transform translate-y-4"></div>
               <img
                 src="/hero-bg.png"
                 alt="Pool 8 Live App Interface"
-                className="relative rounded-3xl shadow-2xl border-4 border-white transform rotate-2 hover:rotate-0 transition-transform duration-500 max-w-full w-[500px]"
+                className="relative rounded-3xl shadow-2xl border-[6px] border-white transform rotate-2 hover:rotate-0 transition-transform duration-500 w-full object-cover"
               />
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl animate-bounce">
-                <div className="flex items-center gap-2">
-                  <Star className="text-amber-400 fill-current" size={20} />
-                  <span className="font-black text-slate-800">Top Rated App</span>
+              <div className="absolute -bottom-8 -left-8 bg-white p-5 rounded-3xl shadow-xl animate-bounce">
+                <div className="flex items-center gap-3">
+                  <Star className="text-amber-400 fill-current" size={24} />
+                  <span className="font-black text-slate-800 text-lg">Top Rated App</span>
                 </div>
               </div>
             </div>

@@ -119,6 +119,7 @@ export interface PoolGameState {
   shots: number;
   maxShots: number;
   pottedBalls: PoolBall[];
+  turnStartPottedCount?: number;
   level: number;
   timer: number;
   timeLeft: number;
