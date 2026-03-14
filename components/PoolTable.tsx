@@ -47,24 +47,53 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
             ctx.fillStyle = 'rgba(0,0,0,0.2)';
             ctx.fill();
 
-            // Ball
+            // For striped balls (9-15), draw a thick central stripe
+            if (ball.type === 'stripe') {
+                ctx.beginPath();
+                // Draw a clip region for the full ball
+                ctx.save();
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+                ctx.clip();
+
+                // Base colors: White background with a colored stripe
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
+
+                // Colored Stripe
+                ctx.fillStyle = ball.color;
+                // Rotating the stripe based on x/y coordinates to give a subtle 3D roll effect
+                const angle = (ball.x + ball.y) * 0.05;
+                ctx.translate(ball.x, ball.y);
+                ctx.rotate(angle);
+                ctx.fillRect(-ball.radius, -ball.radius * 0.5, ball.radius * 2, ball.radius);
+                ctx.restore();
+            } else {
+                // Solid balls
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+                ctx.fillStyle = ball.color;
+                ctx.fill();
+            }
+
+            // White Circle (Number plate)
             ctx.beginPath();
-            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-            ctx.fillStyle = ball.color;
+            ctx.arc(ball.x, ball.y, ball.radius * 0.55, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
             ctx.fill();
 
-            // Highlight
+            // Highlight (Glossy effect)
             ctx.beginPath();
             ctx.arc(ball.x - ball.radius * 0.3, ball.y - ball.radius * 0.3, ball.radius * 0.4, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.fillStyle = 'rgba(255,255,255,0.4)';
             ctx.fill();
 
             if (ball.type !== 'cue') {
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 8px Arial';
+                ctx.fillStyle = '#000000';
+                ctx.font = 'bold 9px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(ball.number.toString(), ball.x, ball.y);
+                // Adjust for rotation if striped? No, keep number upright for readability
+                ctx.fillText(ball.number.toString(), ball.x, ball.y + 0.5);
             }
         });
 
@@ -74,35 +103,26 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
             const dy = currentMouse.y - state.cueBall.y;
             const angle = Math.atan2(dy, dx);
 
-            // Aiming line
+            // Thin Aiming line
             ctx.beginPath();
-            ctx.setLineDash([5, 5]);
+            ctx.setLineDash([3, 4]); // Much finer dashes
+            ctx.lineWidth = 1; // Thinner
             ctx.moveTo(state.cueBall.x, state.cueBall.y);
-            ctx.lineTo(state.cueBall.x - Math.cos(angle) * 200, state.cueBall.y - Math.sin(angle) * 200);
-            ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+            ctx.lineTo(state.cueBall.x - Math.cos(angle) * 800, state.cueBall.y - Math.sin(angle) * 800); // Longer trajectory
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
             ctx.stroke();
             ctx.setLineDash([]);
+            ctx.lineWidth = 1; // Reset
 
-            // Cue stick
+            // Note: Cue stick is now rendered via HTML outside the canvas
             if (isDragging && dragStart) {
                 const dragDist = Math.min(Math.sqrt(Math.pow(currentMouse.x - dragStart.x, 2) + Math.pow(currentMouse.y - dragStart.y, 2)), 100);
-                const cueX = state.cueBall.x + Math.cos(angle) * (BALL_RADIUS + 10 + dragDist);
-                const cueY = state.cueBall.y + Math.sin(angle) * (BALL_RADIUS + 10 + dragDist);
-
+                // Draw a minimal power indicator ring around the cue ball on canvas
                 ctx.beginPath();
-                ctx.lineWidth = 4;
-                ctx.lineCap = 'round';
-                ctx.moveTo(cueX, cueY);
-                ctx.lineTo(cueX + Math.cos(angle) * 250, cueY + Math.sin(angle) * 250);
-                ctx.strokeStyle = '#d4a373';
+                ctx.arc(state.cueBall.x, state.cueBall.y, BALL_RADIUS + dragDist * 0.2 + 5, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(255, ${255 - (dragDist * 2)}, 0, 0.5)`;
+                ctx.lineWidth = 2;
                 ctx.stroke();
-
-                // Power Bar
-                const powerPercent = dragDist / 100;
-                ctx.fillStyle = '#111';
-                ctx.fillRect(10, TABLE_HEIGHT - 30, 200, 20);
-                ctx.fillStyle = `rgb(${255 * powerPercent}, ${255 * (1 - powerPercent)}, 0)`;
-                ctx.fillRect(10, TABLE_HEIGHT - 30, 200 * powerPercent, 20);
             }
         }
     };
@@ -161,8 +181,32 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
         setDragStart(null);
     };
 
+    // Calculate HTML Cue Stick Position and Angle
+    let htmlCueAngle = 0;
+    let htmlCueX = 0;
+    let htmlCueY = 0;
+    let showHtmlCue = false;
+
+    if (state.gameState === 'aiming' && state.cueBall && currentMouse) {
+        showHtmlCue = true;
+        const dx = currentMouse.x - state.cueBall.x;
+        const dy = currentMouse.y - state.cueBall.y;
+        htmlCueAngle = Math.atan2(dy, dx); // Angle in radians
+
+        // Base distance from cue ball
+        let distance = BALL_RADIUS + 5;
+
+        if (isDragging && dragStart) {
+            const dragDist = Math.min(Math.sqrt(Math.pow(currentMouse.x - dragStart.x, 2) + Math.pow(currentMouse.y - dragStart.y, 2)), 100);
+            distance += dragDist;
+        }
+
+        htmlCueX = state.cueBall.x + Math.cos(htmlCueAngle) * distance;
+        htmlCueY = state.cueBall.y + Math.sin(htmlCueAngle) * distance;
+    }
+
     return (
-        <div className="relative inline-block bg-slate-800 p-4 rounded-xl shadow-2xl border-4 border-slate-700">
+        <div className="relative inline-block bg-slate-800 p-4 rounded-xl shadow-2xl border-4 border-slate-700 select-none touch-none">
             <canvas
                 ref={canvasRef}
                 width={TABLE_WIDTH}
@@ -173,6 +217,38 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
                 onMouseLeave={() => setIsDragging(false)}
                 className="rounded bg-[#0a5c2e] cursor-crosshair"
             />
+
+            {/* HTML Overlay Cue Stick */}
+            {showHtmlCue && (
+                <div
+                    className="absolute pointer-events-none"
+                    style={{
+                        // 16px is the padding of the parent container
+                        left: `${htmlCueX + 16}px`,
+                        top: `${htmlCueY + 16}px`,
+                        transform: `rotate(${htmlCueAngle}rad)`,
+                        transformOrigin: 'left center',
+                        width: '400px', // Extra long stick
+                        height: '6px',
+                        zIndex: 50,
+                    }}
+                >
+                    {/* The stick itself */}
+                    <div className="w-full h-full rounded-full overflow-hidden flex shadow-2xl">
+                        {/* Tip */}
+                        <div className="w-2 h-full bg-cyan-500"></div>
+                        {/* Ferrule */}
+                        <div className="w-4 h-full bg-slate-100"></div>
+                        {/* Shaft */}
+                        <div className="w-1/2 h-full bg-[#e8c396] shrink-0 border-y border-black/10"></div>
+                        {/* Butt / Handle */}
+                        <div className="flex-1 h-full bg-slate-900 border-y border-black/20 flex items-center justify-between px-2">
+                            <div className="w-12 border-t border-white/20"></div>
+                            <div className="w-12 border-t border-white/20"></div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {state.gameState === 'moving' && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/10 pointer-events-none">

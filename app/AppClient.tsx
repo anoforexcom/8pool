@@ -456,70 +456,89 @@ const App: React.FC = () => {
         const allTargetBallsPotted = nextState.balls.every(b => b.isPotted);
 
         if (nextState.gameState === 'aiming') {
-          // If balls stopped moving, check if we need to switch turns or assign types
-          const pottedThisTurn = nextState.pottedBalls.length - s.pottedBalls.length;
-          const pottedCueBall = nextState.pottedBalls.find(pb => pb.id === 0 && !s.pottedBalls.find(sp => sp.id === 0));
+          const newlyPotted = nextState.pottedBalls.filter(pb => !s.pottedBalls.find(sp => sp.id === pb.id));
+          const pottedCueBall = newlyPotted.find(pb => pb.type === 'cue');
+          const potted8Ball = newlyPotted.find(pb => pb.type === 'black');
 
           let nextTurn = s.currentTurn;
           let playerType = s.playerType;
           let opponentType = s.opponentType;
+          let isFoul = false;
 
+          // 1. Handle Scratch (Cue Ball Potted)
           if (pottedCueBall) {
-            // Scratch: Switch turns and place cue ball back
-            nextTurn = s.currentTurn === 'player' ? 'opponent' : 'player';
+            isFoul = true;
             nextState.cueBall.x = TABLE_WIDTH * 0.25;
             nextState.cueBall.y = TABLE_HEIGHT / 2;
             nextState.cueBall.vx = 0;
             nextState.cueBall.vy = 0;
             nextState.cueBall.isPotted = false;
-            // Remove cue ball from potted list
-            nextState.pottedBalls = nextState.pottedBalls.filter(pb => pb.id !== 0);
-          } else if (pottedThisTurn > 0) {
-            // Something was potted
-            const newlyPotted = nextState.pottedBalls.filter(pb => !s.pottedBalls.find(sp => sp.id === pb.id));
+            nextState.pottedBalls = nextState.pottedBalls.filter(pb => pb.type !== 'cue');
+          }
 
-            // Assign types if none
-            if (!playerType) {
-              const firstValuable = newlyPotted.find(b => b.type === 'solid' || b.type === 'stripe');
-              if (firstValuable) {
-                if (s.currentTurn === 'player') {
-                  playerType = firstValuable.type as 'solid' | 'stripe';
-                  opponentType = playerType === 'solid' ? 'stripe' : 'solid';
-                } else {
-                  opponentType = firstValuable.type as 'solid' | 'stripe';
-                  playerType = opponentType === 'solid' ? 'stripe' : 'solid';
+          // 2. Handle 8-Ball Potted
+          if (potted8Ball) {
+            const targetType = s.currentTurn === 'player' ? playerType : opponentType;
+            // Count remaining balls of their suit. If type not set, they technically have all 7 remaining.
+            const remainingSuitBalls = targetType ? nextState.balls.filter(b => b.type === targetType && !b.isPotted).length : 7;
+
+            if (remainingSuitBalls === 0 && !isFoul) {
+              // Legitimate Win
+              if (s.currentTurn === 'player') {
+                const points = (settings.pointsPerLevel || 100) + (nextState.timeLeft * (settings.timeBonusMultiplier || 2));
+                setLastGainedPoints(points);
+
+                if (userProfile) {
+                  const updatedProfile = { ...userProfile, totalScore: userProfile.totalScore + points };
+                  setUserProfile(updatedProfile);
+                  syncProgress(nextState.level, updatedProfile.totalScore);
                 }
+                setCompletedLevels(prev => [...new Set([...prev, nextState.level])]);
+                return { ...nextState, gameState: 'won' };
+              } else {
+                return { ...nextState, gameState: 'lost' };
+              }
+            } else {
+              // Illegitimate 8-Ball pot (Foul or balls remaining) -> Loss for the side that potted it
+              return { ...nextState, gameState: s.currentTurn === 'player' ? 'lost' : 'won' };
+            }
+          }
+
+          // 3. Assign Suits (Open Table)
+          if (!playerType && newlyPotted.length > 0 && !isFoul) {
+            const firstValid = newlyPotted.find(b => b.type === 'solid' || b.type === 'stripe');
+            if (firstValid) {
+              if (s.currentTurn === 'player') {
+                playerType = firstValid.type as 'solid' | 'stripe';
+                opponentType = playerType === 'solid' ? 'stripe' : 'solid';
+              } else {
+                opponentType = firstValid.type as 'solid' | 'stripe';
+                playerType = opponentType === 'solid' ? 'stripe' : 'solid';
               }
             }
+          }
 
-            // Check if player/bot potted their own ball to keep turn
+          // 4. Turn Switching Logic
+          if (!isFoul) {
             const targetType = s.currentTurn === 'player' ? playerType : opponentType;
             const pottedOwn = newlyPotted.some(b => b.type === targetType);
 
-            if (!pottedOwn) {
+            // If they potted their own ball (or any ball on an open table), they keep the turn
+            if (!pottedOwn && newlyPotted.length === 0) {
+              // Didn't pot anything
+              nextTurn = s.currentTurn === 'player' ? 'opponent' : 'player';
+            } else if (newlyPotted.some(b => b.type !== targetType && targetType !== null)) {
+              // Potted opponent's ball -> Foul/Turn switch
               nextTurn = s.currentTurn === 'player' ? 'opponent' : 'player';
             }
           } else {
-            // Nothing potted: Switch turns
+            // Foul immediately switches turn
             nextTurn = s.currentTurn === 'player' ? 'opponent' : 'player';
           }
 
           nextState.currentTurn = nextTurn;
           nextState.playerType = playerType;
           nextState.opponentType = opponentType;
-
-          // Win/Loss check
-          if (allTargetBallsPotted) {
-            const points = (settings.pointsPerLevel || 100) + (nextState.timeLeft * (settings.timeBonusMultiplier || 2));
-            setLastGainedPoints(points);
-            if (userProfile) {
-              const updatedProfile = { ...userProfile, totalScore: userProfile.totalScore + points };
-              setUserProfile(updatedProfile);
-              syncProgress(nextState.level, updatedProfile.totalScore);
-            }
-            setCompletedLevels(prev => [...new Set([...prev, nextState.level])]);
-            return { ...nextState, gameState: 'won' };
-          }
 
           if (nextTurn === 'opponent') {
             return { ...nextState, gameState: 'opponent_thinking' };

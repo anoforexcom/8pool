@@ -6,19 +6,20 @@ export const calculateOpponentShot = (state: PoolGameState): { power: number; an
     const { balls, cueBall, opponentType } = state;
 
     // Decide which balls to target
-    let targetBalls = balls.filter(b => !b.isPotted);
+    let targetBalls = balls.filter(b => !b.isPotted && b.type !== 'cue');
 
     if (opponentType) {
+        // Target only assigned suit
         const myBalls = targetBalls.filter(b => b.type === opponentType);
         if (myBalls.length > 0) {
             targetBalls = myBalls;
         } else {
-            // Must hit 8-ball if all others are gone
-            const eightBall = balls.find(b => b.id === 8 && !b.isPotted);
+            // Must hit 8-ball if all suit balls are gone
+            const eightBall = balls.find(b => b.type === 'black' && !b.isPotted);
             if (eightBall) targetBalls = [eightBall];
         }
     } else {
-        // Open table, exclude 8-ball if possible
+        // Open table, exclude 8-ball
         const nonBlack = targetBalls.filter(b => b.type !== 'black');
         if (nonBlack.length > 0) targetBalls = nonBlack;
     }
