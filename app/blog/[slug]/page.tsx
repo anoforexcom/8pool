@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
     const post = BLOG_POSTS.find((p) => p.slug === slug);
 
-    if (!post) return { title: 'Post Não Encontrado' };
+    if (!post) return { title: 'Post Not Found' };
 
     return {
         title: `${post.title} | Pool 8 Live Blog`,
@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="max-w-4xl mx-auto flex items-center justify-between">
                     <Link href="/blog" className="flex items-center gap-2 group text-slate-600 hover:text-indigo-600 transition-colors">
                         <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-                        <span className="font-bold text-sm uppercase tracking-widest">Todos os Artigos</span>
+                        <span className="font-bold text-sm uppercase tracking-widest">All Articles</span>
                     </Link>
                     <div className="flex gap-4">
                         <button className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400 hover:text-indigo-600"><Share2 size={18} /></button>
@@ -80,8 +80,8 @@ export default async function BlogPostPage({ params }: Props) {
                                 P8
                             </div>
                             <div>
-                                <div className="text-xs font-black text-slate-800 uppercase tracking-tight">Redação Pool 8</div>
-                                <div className="text-[10px] font-bold text-slate-400 uppercase">Especialista em Bilhar</div>
+                                <div className="text-xs font-black text-slate-800 uppercase tracking-tight">Pool 8 Editorial</div>
+                                <div className="text-[10px] font-bold text-slate-400 uppercase">Billiard Specialist</div>
                             </div>
                         </div>
                         <div className="h-8 w-px bg-slate-100"></div>
@@ -118,9 +118,9 @@ export default async function BlogPostPage({ params }: Props) {
                             <User size={48} />
                         </div>
                         <div>
-                            <h3 className="text-xl font-black text-slate-900 mb-2 uppercase">Sobre o Autor</h3>
+                            <h3 className="text-xl font-black text-slate-900 mb-2 uppercase">About the Author</h3>
                             <p className="text-slate-500 font-medium">
-                                A nossa equipa editorial é composta por entusiastas e profissionais de bilhar dedicados a partilhar as melhores estratégias de 8-ball para elevar o teu jogo.
+                                Our editorial team is composed of billiard enthusiasts and professionals dedicated to sharing the best 8-ball strategies to elevate your game.
                             </p>
                         </div>
                     </div>
@@ -128,7 +128,7 @@ export default async function BlogPostPage({ params }: Props) {
 
                 {/* Share Section */}
                 <div className="mt-12 flex items-center justify-between border-t border-slate-100 pt-8">
-                    <div className="font-black text-xs text-slate-400 uppercase tracking-widest">Partilhar Artigo</div>
+                    <div className="font-black text-xs text-slate-400 uppercase tracking-widest">Share Article</div>
                     <div className="flex gap-3">
                         <button className="w-10 h-10 flex items-center justify-center bg-slate-50 rounded-full text-slate-400 hover:bg-indigo-600 hover:text-white transition-all"><Facebook size={18} /></button>
                         <button className="w-10 h-10 flex items-center justify-center bg-slate-50 rounded-full text-slate-400 hover:bg-indigo-600 hover:text-white transition-all"><Twitter size={18} /></button>
@@ -140,12 +140,12 @@ export default async function BlogPostPage({ params }: Props) {
             {/* CTA Footer Section */}
             <footer className="bg-slate-900 py-24 px-6 text-center text-white">
                 <div className="max-w-4xl mx-auto">
-                    <h2 className="text-4xl md:text-5xl font-black mb-8 uppercase tracking-tight">Pronto para Dominar as Mesas?</h2>
+                    <h2 className="text-4xl md:text-5xl font-black mb-8 uppercase tracking-tight">Ready to Dominate the Tables?</h2>
                     <p className="text-slate-400 text-lg mb-10 font-medium max-w-xl mx-auto">
-                        Aplica estas estratégias agora mesmo e começa a subir no ranking global de Pool 8 Live.
+                        Apply these strategies right now and start climbing the global Pool 8 Live rankings.
                     </p>
                     <Link href="/" className="inline-block bg-white text-slate-900 px-12 py-5 rounded-2xl font-black text-xl shadow-[0_20px_50px_rgba(255,255,255,0.1)] hover:scale-105 active:scale-95 transition-all">
-                        JOGAR AGORA
+                        PLAY NOW
                     </Link>
                 </div>
             </footer>

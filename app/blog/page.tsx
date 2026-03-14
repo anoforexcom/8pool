@@ -16,10 +16,10 @@ export default function BlogIndex() {
                         <div className="bg-indigo-600 p-2 rounded-xl group-hover:rotate-12 transition-transform shadow-lg shadow-indigo-200">
                             <ArrowLeft size={18} className="text-white" />
                         </div>
-                        <span className="font-black text-xl tracking-tighter text-slate-800 uppercase">VOLTAR</span>
+                        <span className="font-black text-xl tracking-tighter text-slate-800 uppercase">BACK</span>
                     </Link>
                     <div className="hidden md:flex items-center gap-6">
-                        <span className="font-black text-xs text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">ARTIGOS PRO (50+)</span>
+                        <span className="font-black text-xs text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">PRO ARTICLES (50+)</span>
                     </div>
                 </div>
             </nav>
@@ -28,17 +28,17 @@ export default function BlogIndex() {
             <section className="pt-32 pb-16 px-6 bg-white border-b border-slate-100">
                 <div className="max-w-5xl mx-auto text-center">
                     <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight uppercase">
-                        Blog <span className="text-indigo-600">Pool 8 Live</span>
+                        Pool 8 Live <span className="text-indigo-600">Blog</span>
                     </h1>
                     <p className="text-xl text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed">
-                        Domina as mesas com as melhores dicas, tutoriais e notícias do mundo do 8 Ball Pool.
+                        Master the tables with the best tips, tutorials, and news from the world of 8 Ball Pool.
                     </p>
 
                     <div className="mt-10 max-w-xl mx-auto relative group">
                         <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
                         <input
                             type="text"
-                            placeholder="Pesquisar artigos..."
+                            placeholder="Search articles..."
                             className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-3xl shadow-inner focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all text-slate-700 font-bold"
                         />
                     </div>
@@ -70,7 +70,7 @@ export default function BlogIndex() {
                             <div className="p-8 flex flex-col flex-1">
                                 <div className="flex items-center gap-4 text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-4">
                                     <div className="flex items-center gap-1.5"><Clock size={12} /> {post.date}</div>
-                                    <div className="flex items-center gap-1.5"><Tag size={12} /> 5 min de leitura</div>
+                                    <div className="flex items-center gap-1.5"><Tag size={12} /> 5 min read</div>
                                 </div>
 
                                 <h2 className="text-2xl font-black text-slate-800 group-hover:text-indigo-600 transition-colors mb-4 leading-tight uppercase tracking-tight">
@@ -82,7 +82,7 @@ export default function BlogIndex() {
                                 </p>
 
                                 <div className="mt-auto flex items-center text-indigo-600 font-black text-xs uppercase tracking-widest group-hover:gap-2 transition-all">
-                                    Ler artigo <ChevronRight size={16} />
+                                    Read article <ChevronRight size={16} />
                                 </div>
                             </div>
                         </Link>
@@ -92,9 +92,9 @@ export default function BlogIndex() {
 
             {/* Footer CTA */}
             <section className="bg-white py-20 px-6 text-center border-t border-slate-100">
-                <h3 className="text-3xl font-black text-slate-900 mb-6 uppercase tracking-tight">Queres testar estas dicas?</h3>
+                <h3 className="text-3xl font-black text-slate-900 mb-6 uppercase tracking-tight">Ready to test these tips?</h3>
                 <Link href="/" className="inline-block bg-indigo-600 text-white px-12 py-5 rounded-2xl font-black text-xl shadow-2xl hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all">
-                    JOGAR AGORA
+                    PLAY NOW
                 </Link>
             </section>
         </div>
