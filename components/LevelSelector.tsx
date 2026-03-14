@@ -44,13 +44,13 @@ const LevelSelector: React.FC<LevelSelectorProps> = ({ onSelect, onClose, comple
                   key={level.id}
                   onClick={() => onSelect(level.id)}
                   className={`relative aspect-square flex flex-col items-center justify-center rounded-2xl border-2 transition-all hover:scale-105 active:scale-95 ${isCurrent
-                      ? 'border-indigo-600 bg-indigo-50 ring-4 ring-indigo-100 shadow-xl'
-                      : isCompleted
-                        ? 'border-emerald-500 bg-emerald-50'
-                        : 'border-slate-100 bg-white hover:border-indigo-200'
+                    ? 'border-amber-500 bg-amber-50 ring-4 ring-amber-100 shadow-xl'
+                    : isCompleted
+                      ? 'border-emerald-500 bg-emerald-50'
+                      : 'border-slate-100 bg-white hover:border-emerald-200'
                     }`}
                 >
-                  <span className={`text-2xl font-black ${isCurrent ? 'text-indigo-700' : isCompleted ? 'text-emerald-700' : 'text-slate-700'}`}>{level.id}</span>
+                  <span className={`text-2xl font-black ${isCurrent ? 'text-amber-700' : isCompleted ? 'text-emerald-700' : 'text-slate-700'}`}>{level.id}</span>
                   <div className={`mt-2 px-2 py-0.5 rounded-full text-[7px] font-black uppercase tracking-widest border ${getDifficultyColor()}`}>
                     {level.difficulty}
                   </div>

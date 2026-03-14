@@ -20,7 +20,7 @@ const PolicyPages: React.FC<PolicyProps> = ({ type, onBack }) => {
   return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-12">
       <div className="max-w-4xl mx-auto">
-        <button onClick={onBack} className="mb-12 flex items-center gap-2 text-indigo-600 font-black uppercase tracking-widest text-xs hover:gap-3 transition-all">
+        <button onClick={onBack} className="mb-12 flex items-center gap-2 text-emerald-600 font-black uppercase tracking-widest text-xs hover:gap-3 transition-all">
           <ArrowLeft size={16} /> BACK TO HOME
         </button>
 
@@ -78,7 +78,7 @@ const PolicyPages: React.FC<PolicyProps> = ({ type, onBack }) => {
           <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="bg-white p-8 md:p-16 rounded-[3rem] shadow-xl border border-slate-100">
               <div className="flex items-center gap-4 mb-8">
-                <div className="bg-indigo-600 p-4 rounded-3xl text-white shadow-lg">
+                <div className="bg-emerald-600 p-4 rounded-3xl text-white shadow-lg">
                   <MessageSquare size={32} />
                 </div>
                 <div>
@@ -100,16 +100,16 @@ const PolicyPages: React.FC<PolicyProps> = ({ type, onBack }) => {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Your Name</label>
-                      <input required type="text" placeholder="e.g. Master John" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-600 outline-none transition-all font-bold" />
+                      <input required type="text" placeholder="e.g. Master John" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-600 outline-none transition-all font-bold" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Contact Email</label>
-                      <input required type="email" placeholder="master@email.com" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-600 outline-none transition-all font-bold" />
+                      <input required type="email" placeholder="master@email.com" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-600 outline-none transition-all font-bold" />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Subject</label>
-                    <select className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-600 outline-none transition-all font-bold">
+                    <select className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-600 outline-none transition-all font-bold">
                       <option>Credit Issues</option>
                       <option>Technical Game Error</option>
                       <option>Level Suggestion</option>
@@ -118,9 +118,9 @@ const PolicyPages: React.FC<PolicyProps> = ({ type, onBack }) => {
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Message</label>
-                    <textarea required rows={5} placeholder="Describe in detail how we can help you..." className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-600 outline-none transition-all font-bold resize-none"></textarea>
+                    <textarea required rows={5} placeholder="Describe in detail how we can help you..." className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-600 outline-none transition-all font-bold resize-none"></textarea>
                   </div>
-                  <button type="submit" className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-lg shadow-xl hover:bg-indigo-700 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest">
+                  <button type="submit" className="w-full py-5 bg-emerald-600 text-white rounded-2xl font-black text-lg shadow-xl hover:bg-emerald-700 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest">
                     SEND MESSAGE <Send size={20} />
                   </button>
                 </form>
@@ -129,7 +129,7 @@ const PolicyPages: React.FC<PolicyProps> = ({ type, onBack }) => {
 
             <div className="bg-white p-8 md:p-16 rounded-[3rem] shadow-xl border border-slate-100">
               <div className="flex items-center gap-3 mb-10">
-                <HelpCircle className="text-indigo-600" size={24} />
+                <HelpCircle className="text-emerald-600" size={24} />
                 <h2 className="text-2xl font-black uppercase tracking-tight text-slate-800">Frequently Asked Questions</h2>
               </div>
               <div className="space-y-8">

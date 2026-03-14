@@ -151,7 +151,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                         <button
                             key={r}
                             onClick={() => setDateRange(r)}
-                            className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${dateRange === r ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-600'}`}
+                            className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${dateRange === r ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-600'}`}
                         >
                             {r === 'all' ? 'All Time' : r}
                         </button>
@@ -162,19 +162,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {[
                     { label: 'Total Revenue', value: `$${(stats.revenue || 0).toFixed(2)}`, icon: <DollarSign size={20} />, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-                    { label: 'Total Users', value: stats.users || 0, icon: <Users size={20} />, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+                    { label: 'Total Users', value: stats.users || 0, icon: <Users size={20} />, color: 'text-emerald-600', bg: 'bg-emerald-50' },
                     { label: 'Total Sales', value: stats.sales || 0, icon: <ShoppingBag size={20} />, color: 'text-amber-600', bg: 'bg-amber-50' },
                     { label: 'Avg Ticket', value: `$${(stats.averageTicket || 0).toFixed(2)}`, icon: <Target size={20} />, color: 'text-rose-600', bg: 'bg-rose-50' },
                 ].map((s, i) => (
                     <div
                         key={i}
                         onClick={() => i === 1 ? setActiveTab('users') : (i === 2 ? setActiveTab('sales') : null)}
-                        className={`bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm transition-all ${i === 1 || i === 2 ? 'cursor-pointer hover:border-indigo-300 hover:shadow-md' : ''}`}
+                        className={`bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm transition-all ${i === 1 || i === 2 ? 'cursor-pointer hover:border-emerald-300 hover:shadow-md' : ''}`}
                     >
                         <div className={`p-3 rounded-2xl ${s.bg} ${s.color} w-fit mb-4`}>{s.icon}</div>
                         <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{s.label}</div>
                         <div className="text-2xl font-black text-slate-800">{s.value}</div>
-                        {(i === 1 || i === 2) && <div className="mt-4 text-[10px] font-black text-indigo-600 uppercase tracking-widest flex items-center gap-1">Manage <ChevronDown size={10} className="-rotate-90" /></div>}
+                        {(i === 1 || i === 2) && <div className="mt-4 text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1">Manage <ChevronDown size={10} className="-rotate-90" /></div>}
                     </div>
                 ))}
             </div>
@@ -186,8 +186,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                         <AreaChart data={chartData}>
                             <defs>
                                 <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.1} />
-                                    <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
+                                    <stop offset="5%" stopColor="#059669" stopOpacity={0.1} />
+                                    <stop offset="95%" stopColor="#059669" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -196,7 +196,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                             <Tooltip
                                 contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontWeight: 800 }}
                             />
-                            <Area type="monotone" dataKey="revenue" stroke="#4f46e5" strokeWidth={4} fillOpacity={1} fill="url(#colorRev)" />
+                            <Area type="monotone" dataKey="revenue" stroke="#059669" strokeWidth={4} fillOpacity={1} fill="url(#colorRev)" />
                         </AreaChart>
                     </ResponsiveContainer>
                 </div>
@@ -211,7 +211,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                                 cursor={{ fill: '#f8fafc' }}
                                 contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontWeight: 800 }}
                             />
-                            <Bar dataKey="sales" fill="#4f46e5" radius={[6, 6, 0, 0]} />
+                            <Bar dataKey="sales" fill="#059669" radius={[6, 6, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
@@ -228,7 +228,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                     <input
                         type="text"
                         placeholder="Search by name or email..."
-                        className="w-full pl-12 pr-4 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm outline-none focus:ring-2 focus:ring-indigo-600 transition-all text-sm"
+                        className="w-full pl-12 pr-4 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm outline-none focus:ring-2 focus:ring-emerald-600 transition-all text-sm"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -250,7 +250,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                             <tr key={u.id} className="hover:bg-slate-50/50 transition-colors">
                                 <td className="px-8 py-5">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-black text-xs overflow-hidden">
+                                        <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-black text-xs overflow-hidden">
                                             {u.avatar ? <img src={u.avatar} alt="" className="w-full h-full object-cover" /> : u.name.charAt(0)}
                                         </div>
                                         <div>
@@ -261,7 +261,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                                 </td>
                                 <td className="px-8 py-5 font-black text-slate-800">{u.totalScore.toLocaleString()}</td>
                                 <td className="px-8 py-5">
-                                    <div className="flex items-center gap-2 font-black text-indigo-600">
+                                    <div className="flex items-center gap-2 font-black text-emerald-600">
                                         <Zap size={14} /> {u.credits}
                                     </div>
                                 </td>
@@ -269,7 +269,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                                     <div className="flex justify-end gap-2">
                                         <button
                                             onClick={() => { onUpdateUser(u.id, { credits: u.credits + 100 }); showToast(`Added 100 credits to ${u.name}`); }}
-                                            className="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-black rounded-lg uppercase hover:bg-indigo-600 hover:text-white transition-all"
+                                            className="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black rounded-lg uppercase hover:bg-emerald-600 hover:text-white transition-all"
                                         >
                                             + Credits
                                         </button>
@@ -299,7 +299,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                         disabled={isExporting}
                         className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm text-xs font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 disabled:opacity-50"
                     >
-                        {isExporting ? <div className="w-4 h-4 border-2 border-indigo-600 border-t-transparent animate-spin rounded-full"></div> : <Download size={16} />}
+                        {isExporting ? <div className="w-4 h-4 border-2 border-emerald-600 border-t-transparent animate-spin rounded-full"></div> : <Download size={16} />}
                         {isExporting ? 'Exporting...' : 'Export CSV'}
                     </button>
                 </div>
@@ -322,7 +322,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                                 <td className="px-8 py-5 font-mono text-xs text-slate-400 font-bold">#{p.id}</td>
                                 <td className="px-8 py-5 font-black text-slate-800">{p.userName}</td>
                                 <td className="px-8 py-5 text-slate-500 font-medium text-xs">{new Date(p.date).toLocaleString()}</td>
-                                <td className="px-8 py-5 font-black text-indigo-600">+{p.credits}</td>
+                                <td className="px-8 py-5 font-black text-emerald-600">+{p.credits}</td>
                                 <td className="px-8 py-5 text-right font-black text-emerald-600">{p.currency}{p.amount.toFixed(2)}</td>
                             </tr>
                         ))}
@@ -338,7 +338,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                 <h2 className="text-2xl font-black text-slate-800 uppercase tracking-tight">System Configuration</h2>
                 <button
                     onClick={handleSaveSettings}
-                    className="flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-500/30 font-black uppercase tracking-widest text-sm hover:scale-105 active:scale-95 transition-all"
+                    className="flex items-center gap-3 px-8 py-4 bg-emerald-600 text-white rounded-2xl shadow-lg shadow-emerald-500/30 font-black uppercase tracking-widest text-sm hover:scale-105 active:scale-95 transition-all"
                 >
                     <Save size={20} /> Save Changes
                 </button>
@@ -347,7 +347,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
             <div className="grid md:grid-cols-2 gap-8">
                 {/* Branding Table */}
                 <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-6">
-                    <div className="flex items-center gap-3 text-indigo-600 mb-2">
+                    <div className="flex items-center gap-3 text-emerald-600 mb-2">
                         <Palette size={24} />
                         <h3 className="font-black uppercase tracking-tight">Appearance</h3>
                     </div>
@@ -356,7 +356,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Application Name</label>
                             <input
                                 type="text"
-                                className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold text-slate-800"
+                                className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold text-slate-800"
                                 value={localSettings.appName}
                                 onChange={(e) => setLocalSettings({ ...localSettings, appName: e.target.value })}
                             />
@@ -372,7 +372,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                                 />
                                 <input
                                     type="text"
-                                    className="flex-1 px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold text-slate-800 uppercase"
+                                    className="flex-1 px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold text-slate-800 uppercase"
                                     value={localSettings.primaryColor}
                                     onChange={(e) => setLocalSettings({ ...localSettings, primaryColor: e.target.value })}
                                 />
@@ -392,7 +392,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Points Per Level</label>
                             <input
                                 type="number"
-                                className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold text-slate-800"
+                                className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold text-slate-800"
                                 value={localSettings.pointsPerLevel}
                                 onChange={(e) => setLocalSettings({ ...localSettings, pointsPerLevel: parseInt(e.target.value) })}
                             />
@@ -403,7 +403,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                                 <input
                                     type="number"
                                     step="0.1"
-                                    className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold text-slate-800"
+                                    className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold text-slate-800"
                                     value={localSettings.timeBonusMultiplier}
                                     onChange={(e) => setLocalSettings({ ...localSettings, timeBonusMultiplier: parseFloat(e.target.value) })}
                                 />
@@ -412,7 +412,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Mistake Penalty</label>
                                 <input
                                     type="number"
-                                    className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold text-slate-800"
+                                    className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold text-slate-800"
                                     value={localSettings.mistakePenalty}
                                     onChange={(e) => setLocalSettings({ ...localSettings, mistakePenalty: parseInt(e.target.value) })}
                                 />
@@ -449,7 +449,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                             disabled={isRecalculating}
                             className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm text-xs font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 disabled:opacity-50"
                         >
-                            {isRecalculating ? <div className="w-4 h-4 border-2 border-indigo-600 border-t-transparent animate-spin rounded-full"></div> : <RotateCcw size={16} />}
+                            {isRecalculating ? <div className="w-4 h-4 border-2 border-emerald-600 border-t-transparent animate-spin rounded-full"></div> : <RotateCcw size={16} />}
                             {isRecalculating ? 'Recalculating...' : 'Recalculate Rankings'}
                         </button>
                     </div>
@@ -471,7 +471,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                                     <td className="px-8 py-5 font-black text-slate-800">{index + 1}</td>
                                     <td className="px-8 py-5">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-black text-xs overflow-hidden">
+                                            <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-black text-xs overflow-hidden">
                                                 {u.avatar ? <img src={u.avatar} alt="" className="w-full h-full object-cover" /> : u.name.charAt(0)}
                                             </div>
                                             <div>
@@ -485,7 +485,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                                         <div className="flex justify-end gap-2">
                                             <button
                                                 onClick={() => { setActiveTab('users'); setSearchTerm(u.name); }}
-                                                className="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-black rounded-lg uppercase hover:bg-indigo-600 hover:text-white transition-all"
+                                                className="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black rounded-lg uppercase hover:bg-emerald-600 hover:text-white transition-all"
                                             >
                                                 Manage
                                             </button>
@@ -528,7 +528,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                 <h2 className="text-2xl font-black text-slate-800 uppercase tracking-tight">Payment Integration</h2>
                 <button
                     onClick={handleSaveSettings}
-                    className="flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-500/30 font-black uppercase tracking-widest text-sm hover:scale-105 active:scale-95 transition-all"
+                    className="flex items-center gap-3 px-8 py-4 bg-emerald-600 text-white rounded-2xl shadow-lg shadow-emerald-500/30 font-black uppercase tracking-widest text-sm hover:scale-105 active:scale-95 transition-all"
                 >
                     <Save size={20} /> Save Changes
                 </button>
@@ -537,7 +537,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
             <div className="grid md:grid-cols-2 gap-8">
                 {/* Stripe Config */}
                 <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-6">
-                    <div className="flex items-center gap-3 text-indigo-600 mb-2">
+                    <div className="flex items-center gap-3 text-emerald-600 mb-2">
                         <DollarSign size={24} />
                         <h3 className="font-black uppercase tracking-tight">Stripe Gateway</h3>
                     </div>
@@ -547,13 +547,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                             <div className="flex bg-slate-50 p-1 rounded-2xl border border-slate-100">
                                 <button
                                     onClick={() => setLocalSettings({ ...localSettings, paymentMode: 'simulated' })}
-                                    className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${localSettings.paymentMode === 'simulated' ? 'bg-white shadow-md text-indigo-600' : 'text-slate-400'}`}
+                                    className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${localSettings.paymentMode === 'simulated' ? 'bg-white shadow-md text-emerald-600' : 'text-slate-400'}`}
                                 >
                                     Simulated
                                 </button>
                                 <button
                                     onClick={() => setLocalSettings({ ...localSettings, paymentMode: 'real' })}
-                                    className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${localSettings.paymentMode === 'real' ? 'bg-indigo-600 shadow-md text-white' : 'text-slate-400'}`}
+                                    className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${localSettings.paymentMode === 'real' ? 'bg-emerald-600 shadow-md text-white' : 'text-slate-400'}`}
                                 >
                                     Real (Stripe)
                                 </button>
@@ -563,7 +563,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Stripe Public Key (pk_test_...)</label>
                             <input
                                 type="text"
-                                className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold text-slate-800"
+                                className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold text-slate-800"
                                 value={localSettings.stripePublicKey || ''}
                                 placeholder="pk_live_..."
                                 onChange={(e) => setLocalSettings({ ...localSettings, stripePublicKey: e.target.value })}
@@ -573,7 +573,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Stripe Secret Key (sk_test_...)</label>
                             <input
                                 type="password"
-                                className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold text-slate-800"
+                                className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold text-slate-800"
                                 value={localSettings.stripeSecretKey || ''}
                                 placeholder="sk_live_..."
                                 onChange={(e) => setLocalSettings({ ...localSettings, stripeSecretKey: e.target.value })}
@@ -648,7 +648,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                         className="flex items-center gap-3 mb-10 cursor-pointer hover:opacity-80 transition-opacity"
                         onClick={() => setActiveTab('dashboard')}
                     >
-                        <div className="bg-indigo-600 p-2 rounded-xl text-white shadow-lg">
+                        <div className="bg-emerald-600 p-2 rounded-xl text-white shadow-lg">
                             <LayoutDashboard size={24} />
                         </div>
                         <div className="flex flex-col">
@@ -669,7 +669,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id as any)}
-                                className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl font-black text-sm uppercase tracking-widest transition-all ${activeTab === tab.id ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/20 translate-x-2' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
+                                className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl font-black text-sm uppercase tracking-widest transition-all ${activeTab === tab.id ? 'bg-emerald-600 text-white shadow-xl shadow-emerald-600/20 translate-x-2' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
                             >
                                 {tab.icon}
                                 {tab.label}

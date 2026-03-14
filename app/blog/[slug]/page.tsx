@@ -47,18 +47,18 @@ export default async function BlogPostPage({ params }: Props) {
         <article className="min-h-screen bg-white">
             {/* Scroll Progress Bar */}
             <div className="fixed top-0 left-0 w-full h-1.5 bg-slate-50 z-[100]">
-                <div className="h-full bg-indigo-600 w-1/3 shadow-[0_0_10px_rgba(79,70,229,0.5)]"></div>
+                <div className="h-full bg-emerald-600 w-1/3 shadow-[0_0_10px_rgba(5,150,105,0.5)]"></div>
             </div>
 
             {/* Navigation Header */}
             <nav className="fixed top-1.5 w-full bg-white/80 backdrop-blur-md z-50 border-b border-slate-100 px-6 py-4">
                 <div className="max-w-4xl mx-auto flex items-center justify-between">
-                    <Link href="/blog" className="flex items-center gap-2 group text-slate-600 hover:text-indigo-600 transition-colors">
+                    <Link href="/blog" className="flex items-center gap-2 group text-slate-600 hover:text-emerald-600 transition-colors">
                         <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
                         <span className="font-bold text-sm uppercase tracking-widest">All Articles</span>
                     </Link>
                     <div className="flex gap-4">
-                        <button className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400 hover:text-indigo-600"><Share2 size={18} /></button>
+                        <button className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400 hover:text-emerald-600"><Share2 size={18} /></button>
                     </div>
                 </div>
             </nav>
@@ -66,7 +66,7 @@ export default async function BlogPostPage({ params }: Props) {
             {/* Hero Header */}
             <header className="pt-32 pb-12 px-6">
                 <div className="max-w-3xl mx-auto">
-                    <div className="inline-block bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 border border-indigo-100">
+                    <div className="inline-block bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 border border-emerald-100">
                         {post.category}
                     </div>
 
@@ -76,7 +76,7 @@ export default async function BlogPostPage({ params }: Props) {
 
                     <div className="flex items-center gap-6 border-y border-slate-100 py-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-black text-sm">
+                            <div className="w-10 h-10 bg-emerald-600 rounded-full flex items-center justify-center text-white font-black text-sm">
                                 P8
                             </div>
                             <div>
@@ -114,7 +114,7 @@ export default async function BlogPostPage({ params }: Props) {
                 {/* Author Bio Section - SEO Friendly */}
                 <section className="mt-20 p-10 bg-slate-50 rounded-[2.5rem] border border-slate-100">
                     <div className="flex flex-col md:flex-row gap-8 items-center text-center md:text-left">
-                        <div className="w-24 h-24 bg-indigo-100 rounded-3xl flex items-center justify-center text-indigo-600">
+                        <div className="w-24 h-24 bg-emerald-100 rounded-3xl flex items-center justify-center text-emerald-600">
                             <User size={48} />
                         </div>
                         <div>
@@ -130,9 +130,9 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="mt-12 flex items-center justify-between border-t border-slate-100 pt-8">
                     <div className="font-black text-xs text-slate-400 uppercase tracking-widest">Share Article</div>
                     <div className="flex gap-3">
-                        <button className="w-10 h-10 flex items-center justify-center bg-slate-50 rounded-full text-slate-400 hover:bg-indigo-600 hover:text-white transition-all"><Facebook size={18} /></button>
-                        <button className="w-10 h-10 flex items-center justify-center bg-slate-50 rounded-full text-slate-400 hover:bg-indigo-600 hover:text-white transition-all"><Twitter size={18} /></button>
-                        <button className="w-10 h-10 flex items-center justify-center bg-slate-50 rounded-full text-slate-400 hover:bg-indigo-600 hover:text-white transition-all"><Link2 size={18} /></button>
+                        <button className="w-10 h-10 flex items-center justify-center bg-slate-50 rounded-full text-slate-400 hover:bg-emerald-600 hover:text-white transition-all"><Facebook size={18} /></button>
+                        <button className="w-10 h-10 flex items-center justify-center bg-slate-50 rounded-full text-slate-400 hover:bg-emerald-600 hover:text-white transition-all"><Twitter size={18} /></button>
+                        <button className="w-10 h-10 flex items-center justify-center bg-slate-50 rounded-full text-slate-400 hover:bg-emerald-600 hover:text-white transition-all"><Link2 size={18} /></button>
                     </div>
                 </div>
             </main>

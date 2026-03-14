@@ -12,12 +12,12 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
       <div className="bg-white rounded-[2.5rem] sm:rounded-[3rem] shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col h-[90vh] animate-in fade-in zoom-in duration-300">
-        <div className="p-6 sm:p-10 border-b border-slate-50 flex justify-between items-center bg-indigo-600 text-white relative flex-shrink-0">
+        <div className="p-6 sm:p-10 border-b border-slate-50 flex justify-between items-center bg-emerald-600 text-white relative flex-shrink-0">
           <div className="flex items-center gap-3 sm:gap-5">
             <Trophy size={32} className="text-amber-400 drop-shadow-lg" />
             <div>
               <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter leading-none">Global Ranking</h2>
-              <p className="text-indigo-100 text-[10px] font-bold uppercase tracking-widest mt-2">The Top 100 Pool Masters Worldwide</p>
+              <p className="text-emerald-100 text-[10px] font-bold uppercase tracking-widest mt-2">The Top 100 Pool Masters Worldwide</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 sm:p-3 hover:bg-white/10 rounded-full transition-all border border-white/20">
@@ -51,7 +51,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
                   return (
                     <tr
                       key={index}
-                      className={`${entry.isCurrentUser ? 'bg-indigo-50/70 border-l-4 border-indigo-600' : 'hover:bg-slate-50/50'} transition-all`}
+                      className={`${entry.isCurrentUser ? 'bg-emerald-50/70 border-l-4 border-emerald-600' : 'hover:bg-slate-50/50'} transition-all`}
                     >
                       <td className="px-4 sm:px-6 py-4">
                         <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full font-black text-xs sm:text-sm">
@@ -63,11 +63,11 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
                       </td>
                       <td className="px-4 sm:px-6 py-4">
                         <div className="flex items-center gap-3 sm:gap-4">
-                          <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-sm ${entry.isCurrentUser ? 'bg-indigo-600 text-white' : 'bg-slate-50 border border-slate-100 text-slate-400'}`}>
+                          <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-sm ${entry.isCurrentUser ? 'bg-emerald-600 text-white' : 'bg-slate-50 border border-slate-100 text-slate-400'}`}>
                             {entry.isCurrentUser ? <Star size={16} className="fill-current" /> : <User size={16} />}
                           </div>
                           <div className="flex flex-col">
-                            <span className={`font-black tracking-tight text-xs sm:text-sm ${entry.isCurrentUser ? 'text-indigo-600' : 'text-slate-700'}`}>
+                            <span className={`font-black tracking-tight text-xs sm:text-sm ${entry.isCurrentUser ? 'text-emerald-600' : 'text-slate-700'}`}>
                               {entry.name} {entry.isCurrentUser && '(YOU)'}
                             </span>
                             <span className="text-[8px] font-bold text-slate-400 uppercase sm:hidden">
@@ -80,7 +80,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
                         {entry.levels}
                       </td>
                       <td className="px-4 sm:px-6 py-4 text-right">
-                        <span className="font-black text-indigo-600 font-mono text-sm sm:text-lg">
+                        <span className="font-black text-emerald-600 font-mono text-sm sm:text-lg">
                           {entry.score.toLocaleString()}
                         </span>
                       </td>

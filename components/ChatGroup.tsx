@@ -61,14 +61,14 @@ const ChatGroup: React.FC<ChatGroupProps> = ({ messages, onSendMessage, onClose,
 
   return (
     <div className="fixed inset-0 sm:inset-auto sm:bottom-20 sm:right-6 sm:w-96 sm:h-[550px] bg-white sm:rounded-[2.5rem] shadow-2xl z-[60] flex flex-col overflow-hidden border border-slate-100 animate-in slide-in-from-bottom-4 duration-300">
-      <div className="p-6 bg-indigo-600 text-white flex justify-between items-center flex-shrink-0">
+      <div className="p-6 bg-emerald-600 text-white flex justify-between items-center flex-shrink-0">
         <div className="flex items-center gap-3">
           <div className="bg-white/20 p-2 rounded-xl">
             <MessageCircle size={20} />
           </div>
           <div>
             <h3 className="font-black text-sm uppercase tracking-widest">Global Chat</h3>
-            <p className="text-[10px] font-bold text-indigo-100 opacity-80 uppercase tracking-tighter">Community Group</p>
+            <p className="text-[10px] font-bold text-emerald-100 opacity-80 uppercase tracking-tighter">Community Group</p>
           </div>
         </div>
         <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors border border-white/20">
@@ -84,7 +84,7 @@ const ChatGroup: React.FC<ChatGroupProps> = ({ messages, onSendMessage, onClose,
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search messages..."
-            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-600 transition-all font-bold text-[10px] uppercase tracking-wider"
+            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-emerald-100 focus:border-emerald-600 transition-all font-bold text-[10px] uppercase tracking-wider"
           />
           {searchQuery && (
             <button
@@ -111,7 +111,7 @@ const ChatGroup: React.FC<ChatGroupProps> = ({ messages, onSendMessage, onClose,
             return (
               <div key={msg.id} className={`flex flex-col ${msg.isMe ? 'items-end' : 'items-start'}`}>
                 <div className="flex items-center gap-1.5 mb-1.5 px-1">
-                  <span className={`text-[9px] font-black uppercase tracking-tight ${msg.isMe ? 'text-indigo-600' : styles?.text}`}>
+                  <span className={`text-[9px] font-black uppercase tracking-tight ${msg.isMe ? 'text-emerald-600' : styles?.text}`}>
                     {msg.sender}
                   </span>
                   <span className="text-[8px] text-slate-300 font-bold">
@@ -121,7 +121,7 @@ const ChatGroup: React.FC<ChatGroupProps> = ({ messages, onSendMessage, onClose,
                   </span>
                 </div>
                 <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm font-medium shadow-sm transition-all duration-200 ${msg.isMe
-                  ? 'bg-indigo-600 text-white rounded-tr-none shadow-indigo-100'
+                  ? 'bg-emerald-600 text-white rounded-tr-none shadow-emerald-100'
                   : `${styles?.bg} ${styles?.text} ${styles?.border} border rounded-tl-none`
                   }`}>
                   {msg.text}
@@ -138,12 +138,12 @@ const ChatGroup: React.FC<ChatGroupProps> = ({ messages, onSendMessage, onClose,
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Type message..."
-          className="flex-1 px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-600 transition-all font-bold text-xs"
+          className="flex-1 px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-emerald-100 focus:border-emerald-600 transition-all font-bold text-xs"
         />
         <button
           type="submit"
           disabled={!inputText.trim()}
-          className="bg-indigo-600 text-white p-3 rounded-xl hover:bg-indigo-700 active:scale-95 transition-all disabled:opacity-50"
+          className="bg-emerald-600 text-white p-3 rounded-xl hover:bg-emerald-700 active:scale-95 transition-all disabled:opacity-50"
         >
           <Send size={18} />
         </button>

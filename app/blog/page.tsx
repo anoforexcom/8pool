@@ -13,13 +13,13 @@ export default function BlogIndex() {
             <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-slate-100 px-6 py-4">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div className="bg-indigo-600 p-2 rounded-xl group-hover:rotate-12 transition-transform shadow-lg shadow-indigo-200">
+                        <div className="bg-emerald-600 p-2 rounded-xl group-hover:rotate-12 transition-transform shadow-lg shadow-emerald-200">
                             <ArrowLeft size={18} className="text-white" />
                         </div>
                         <span className="font-black text-xl tracking-tighter text-slate-800 uppercase">BACK</span>
                     </Link>
                     <div className="hidden md:flex items-center gap-6">
-                        <span className="font-black text-xs text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">PRO ARTICLES (50+)</span>
+                        <span className="font-black text-xs text-emerald-600 uppercase tracking-widest bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">PRO ARTICLES (50+)</span>
                     </div>
                 </div>
             </nav>
@@ -28,18 +28,18 @@ export default function BlogIndex() {
             <section className="pt-32 pb-16 px-6 bg-white border-b border-slate-100">
                 <div className="max-w-5xl mx-auto text-center">
                     <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight uppercase">
-                        Pool 8 Live <span className="text-indigo-600">Blog</span>
+                        Pool 8 Live <span className="text-emerald-600">Blog</span>
                     </h1>
                     <p className="text-xl text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed">
                         Master the tables with the best tips, tutorials, and news from the world of 8 Ball Pool.
                     </p>
 
                     <div className="mt-10 max-w-xl mx-auto relative group">
-                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
+                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-600 transition-colors" size={20} />
                         <input
                             type="text"
                             placeholder="Search articles..."
-                            className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-3xl shadow-inner focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all text-slate-700 font-bold"
+                            className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-3xl shadow-inner focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:bg-white transition-all text-slate-700 font-bold"
                         />
                     </div>
                 </div>
@@ -61,7 +61,7 @@ export default function BlogIndex() {
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100"
                                 />
                                 <div className="absolute top-4 left-4">
-                                    <span className="bg-white/90 backdrop-blur-md text-indigo-600 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl">
+                                    <span className="bg-white/90 backdrop-blur-md text-emerald-600 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl">
                                         {post.category}
                                     </span>
                                 </div>
@@ -73,7 +73,7 @@ export default function BlogIndex() {
                                     <div className="flex items-center gap-1.5"><Tag size={12} /> 5 min read</div>
                                 </div>
 
-                                <h2 className="text-2xl font-black text-slate-800 group-hover:text-indigo-600 transition-colors mb-4 leading-tight uppercase tracking-tight">
+                                <h2 className="text-2xl font-black text-slate-800 group-hover:text-emerald-600 transition-colors mb-4 leading-tight uppercase tracking-tight">
                                     {post.title}
                                 </h2>
 
@@ -81,7 +81,7 @@ export default function BlogIndex() {
                                     {post.excerpt}
                                 </p>
 
-                                <div className="mt-auto flex items-center text-indigo-600 font-black text-xs uppercase tracking-widest group-hover:gap-2 transition-all">
+                                <div className="mt-auto flex items-center text-emerald-600 font-black text-xs uppercase tracking-widest group-hover:gap-2 transition-all">
                                     Read article <ChevronRight size={16} />
                                 </div>
                             </div>
@@ -93,7 +93,7 @@ export default function BlogIndex() {
             {/* Footer CTA */}
             <section className="bg-white py-20 px-6 text-center border-t border-slate-100">
                 <h3 className="text-3xl font-black text-slate-900 mb-6 uppercase tracking-tight">Ready to test these tips?</h3>
-                <Link href="/" className="inline-block bg-indigo-600 text-white px-12 py-5 rounded-2xl font-black text-xl shadow-2xl hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all">
+                <Link href="/" className="inline-block bg-emerald-600 text-white px-12 py-5 rounded-2xl font-black text-xl shadow-2xl hover:bg-emerald-700 hover:scale-105 active:scale-95 transition-all">
                     PLAY NOW
                 </Link>
             </section>

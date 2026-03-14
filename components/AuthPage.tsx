@@ -74,7 +74,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, onBack }) => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
-      <button onClick={onBack} className="absolute top-8 left-8 text-slate-400 font-black text-xs flex items-center gap-2 hover:text-indigo-600 uppercase tracking-widest transition-colors">
+      <button onClick={onBack} className="absolute top-8 left-8 text-slate-400 font-black text-xs flex items-center gap-2 hover:text-emerald-600 uppercase tracking-widest transition-colors">
         <ArrowRight className="rotate-180" size={16} /> BACK TO HOME
       </button>
 
@@ -95,7 +95,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, onBack }) => {
                 required
                 type="text"
                 placeholder="Username"
-                className="w-full pl-14 pr-6 py-5 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-600 outline-none transition-all font-bold text-slate-700"
+                className="w-full pl-14 pr-6 py-5 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-600 outline-none transition-all font-bold text-slate-700"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
@@ -107,7 +107,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, onBack }) => {
               required
               type="email"
               placeholder="Email Address"
-              className="w-full pl-14 pr-6 py-5 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-600 outline-none transition-all font-bold text-slate-700"
+              className="w-full pl-14 pr-6 py-5 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-600 outline-none transition-all font-bold text-slate-700"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
@@ -118,7 +118,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, onBack }) => {
               required
               type="password"
               placeholder="Password"
-              className="w-full pl-14 pr-6 py-5 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-600 outline-none transition-all font-bold text-slate-700"
+              className="w-full pl-14 pr-6 py-5 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-600 outline-none transition-all font-bold text-slate-700"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
@@ -133,7 +133,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, onBack }) => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-lg shadow-xl hover:bg-indigo-700 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest mt-4 flex items-center justify-center gap-3 disabled:opacity-50 disabled:scale-100"
+            className="w-full py-5 bg-emerald-600 text-white rounded-2xl font-black text-lg shadow-xl hover:bg-emerald-700 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest mt-4 flex items-center justify-center gap-3 disabled:opacity-50 disabled:scale-100"
           >
             {loading ? <Loader2 className="animate-spin" size={24} /> : (isLogin ? 'LOGIN NOW' : 'CREATE ACCOUNT')}
           </button>
@@ -164,7 +164,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, onBack }) => {
 
         <button
           onClick={handleGuestLogin}
-          className="w-full py-4 bg-slate-50 text-indigo-600 rounded-2xl font-black text-sm border-2 border-slate-100 hover:border-indigo-100 hover:bg-indigo-50 transition-all flex items-center justify-center gap-2 group"
+          className="w-full py-4 bg-slate-50 text-emerald-600 rounded-2xl font-black text-sm border-2 border-slate-100 hover:border-emerald-100 hover:bg-emerald-50 transition-all flex items-center justify-center gap-2 group"
         >
           <Sparkles size={18} className="group-hover:animate-pulse" />
           TEST AS GUEST (FLIPPA DEMO)
@@ -173,7 +173,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, onBack }) => {
         <div className="mt-10 text-center">
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-slate-400 font-black text-[10px] uppercase tracking-widest hover:text-indigo-600 transition-colors"
+            className="text-slate-400 font-black text-[10px] uppercase tracking-widest hover:text-emerald-600 transition-colors"
           >
             {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Login'}
           </button>

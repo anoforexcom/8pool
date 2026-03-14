@@ -42,9 +42,9 @@ const SETTINGS_KEY = 'pool8-global-settings';
 
 const DEFAULT_SETTINGS: GlobalSettings = {
   appName: 'pool8.live',
-  primaryColor: '#4f46e5',
+  primaryColor: '#059669',
   pointsPerLevel: 100,
-  timeBonusMultiplier: 2.0,
+  timeBonusMultiplier: 2.5,
   mistakePenalty: 50,
   stripePublicKey: '',
   stripeSecretKey: '',
@@ -779,13 +779,13 @@ const App: React.FC = () => {
               >
                 <img src="/logo.png" alt="Pool8Live Logo" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
               </button>
-              <div onClick={() => setShowPurchaseModal(true)} className="flex flex-col text-[10px] md:text-xs font-black text-indigo-600 cursor-pointer hover:opacity-80 transition-opacity">
+              <div onClick={() => setShowPurchaseModal(true)} className="flex flex-col text-[10px] md:text-xs font-black text-emerald-600 cursor-pointer hover:opacity-80 transition-opacity">
                 <span className="text-slate-400 hidden md:block">CREDITS</span>
-                <div className="flex items-center gap-1"><Wallet size={12} /> {userProfile?.credits} <Plus size={10} className="bg-indigo-100 rounded-full p-0.5" /></div>
+                <div className="flex items-center gap-1"><Wallet size={12} /> {userProfile?.credits} <Plus size={10} className="bg-emerald-100 rounded-full p-0.5" /></div>
               </div>
             </div>
             <div className="flex items-center gap-1 md:gap-2">
-              <div className="bg-slate-100 px-2 md:px-3 py-1 md:py-1.5 rounded-full font-mono font-black text-indigo-600 text-xs md:text-sm">
+              <div className="bg-slate-100 px-2 md:px-3 py-1 md:py-1.5 rounded-full font-mono font-black text-emerald-600 text-xs md:text-sm">
                 <Timer size={14} className="inline mr-1" /> {Math.floor(state.timeLeft / 60)}:{(state.timeLeft % 60).toString().padStart(2, '0')}
               </div>
               <button onClick={() => setShowChat(true)} className="p-1.5 md:p-2 bg-slate-50 rounded-full relative">
@@ -793,12 +793,12 @@ const App: React.FC = () => {
                 {unreadCount > 0 && <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] px-1 rounded-full">{unreadCount}</span>}
               </button>
               <button onClick={() => setShowLeaderboard(true)} className="p-1.5 md:p-2 bg-slate-50 rounded-full"><Trophy size={16} className="md:w-[18px] md:h-[18px]" /></button>
-              <button onClick={() => setView('profile')} className="p-1.5 md:p-2 bg-slate-50 rounded-full hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
+              <button onClick={() => setView('profile')} className="p-1.5 md:p-2 bg-slate-50 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">
                 <div className="w-[16px] h-[16px] md:w-[18px] md:h-[18px] flex items-center justify-center text-xs overflow-hidden rounded-full">
                   {userProfile?.avatar?.startsWith('http') ? <img src={userProfile.avatar} alt="P" className="w-full h-full object-cover" /> : (userProfile?.avatar || <Users size={16} className="md:w-[18px] md:h-[18px]" />)}
                 </div>
               </button>
-              <button onClick={() => setShowLevelSelector(true)} className="bg-indigo-50 text-indigo-700 px-2 md:px-3 py-1 md:py-1.5 rounded-full font-black text-[10px] md:text-xs">LV. {state.level}</button>
+              <button onClick={() => setShowLevelSelector(true)} className="bg-emerald-50 text-emerald-700 px-2 md:px-3 py-1 md:py-1.5 rounded-full font-black text-[10px] md:text-xs">LV. {state.level}</button>
             </div>
           </div>
         </header>
@@ -820,7 +820,7 @@ const App: React.FC = () => {
           <div className={`relative transition-all duration-500 ${isLevelChanging ? 'opacity-0 scale-95' : 'opacity-100'}`}>
             {state.isPaused && !isGameOver && (
               <div className="absolute inset-0 z-20 bg-white/80 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center">
-                <Play size={64} className="text-indigo-600 cursor-pointer" onClick={() => handleAction('pause')} />
+                <Play size={64} className="text-emerald-600 cursor-pointer" onClick={() => handleAction('pause')} />
                 <h3 className="text-xl font-black">PAUSED</h3>
               </div>
             )}
