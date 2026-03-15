@@ -12,7 +12,7 @@ const Controls: React.FC<ControlsProps> = ({ onStrike, onAction, canUndo }) => {
   return (
     <div className="flex flex-col gap-6 w-full max-w-md mx-auto">
       <div className="flex justify-around items-center">
-        <button onClick={() => onAction('reset')} className="flex flex-col items-center gap-1 hover:text-indigo-600">
+        <button onClick={() => onAction('reset')} className="flex flex-col items-center gap-1 hover:text-emerald-600">
           <div className="p-3 bg-white rounded-full border border-slate-200 shadow-sm"><RotateCcw size={24} /></div>
           <span className="text-[8px] font-black text-slate-500 tracking-widest uppercase">RESET RACK</span>
         </button>

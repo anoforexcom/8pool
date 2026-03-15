@@ -71,7 +71,7 @@ const ReferralPage: React.FC<ReferralPageProps> = ({ user, onBack }) => {
                     </div>
                     <button
                         onClick={onBack}
-                        className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-indigo-600 uppercase tracking-widest transition-colors"
+                        className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-emerald-600 uppercase tracking-widest transition-colors"
                     >
                         <ArrowLeft size={16} /> Voltar
                     </button>
@@ -80,7 +80,7 @@ const ReferralPage: React.FC<ReferralPageProps> = ({ user, onBack }) => {
 
             <div className="max-w-4xl mx-auto px-4 pt-24 space-y-8">
                 {/* Hero Section */}
-                <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-8 text-white shadow-xl">
+                <div className="bg-gradient-to-r from-emerald-600 to-emerald-800 rounded-3xl p-8 text-white shadow-xl">
                     <div className="flex items-center gap-3 mb-4">
                         <Gift size={32} />
                         <h1 className="text-3xl font-black uppercase tracking-tight">Programa de Referência</h1>
@@ -102,7 +102,7 @@ const ReferralPage: React.FC<ReferralPageProps> = ({ user, onBack }) => {
                         />
                         <button
                             onClick={copyToClipboard}
-                            className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-black hover:bg-indigo-700 flex items-center gap-2 transition-all active:scale-95"
+                            className="px-6 py-3 bg-emerald-600 text-white rounded-xl font-black hover:bg-emerald-700 flex items-center gap-2 transition-all active:scale-95"
                         >
                             {copied ? <Check size={18} /> : <Copy size={18} />}
                             {copied ? 'Copiado!' : 'Copiar'}
@@ -160,7 +160,7 @@ const ReferralPage: React.FC<ReferralPageProps> = ({ user, onBack }) => {
                 {/* Stats */}
                 <div className="grid md:grid-cols-3 gap-6">
                     <div className="bg-white rounded-3xl p-6 border border-slate-100 text-center shadow-sm">
-                        <Users size={32} className="mx-auto mb-2 text-indigo-600" />
+                        <Users size={32} className="mx-auto mb-2 text-emerald-600" />
                         <div className="text-3xl font-black">{referralData.totalReferred}</div>
                         <div className="text-sm text-slate-500 uppercase tracking-widest">Amigos</div>
                     </div>
@@ -214,7 +214,7 @@ const ReferralPage: React.FC<ReferralPageProps> = ({ user, onBack }) => {
                             {referralData.referredUsers.map((friend, i) => (
                                 <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center font-black text-indigo-600">
+                                        <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center font-black text-emerald-600">
                                             {friend.name.charAt(0).toUpperCase()}
                                         </div>
                                         <div>

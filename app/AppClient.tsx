@@ -803,17 +803,31 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        <main className="max-w-4xl mx-auto mt-2 md:mt-6 px-2 md:px-4 flex flex-col items-center gap-3 md:gap-6">
-          <div className="flex w-full gap-3">
-            <div className="bg-white p-2 md:p-4 rounded-2xl md:rounded-3xl border border-slate-100 shadow-sm flex-1 text-center">
-              <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase">Score</span>
-              <div className="text-lg md:text-2xl font-black">{userProfile?.totalScore.toLocaleString()}</div>
+        <main className="max-w-4xl mx-auto mt-2 md:mt-4 px-2 md:px-4 flex flex-col items-center gap-2 md:gap-4">
+          {/* Combined HUD & Stats Section */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 w-full gap-2">
+            {/* Player Card */}
+            <div className={`p-2 md:p-3 rounded-xl md:rounded-2xl border transition-all duration-300 ${state.currentTurn === 'player' ? 'bg-emerald-600 border-emerald-400 text-white shadow-lg scale-[1.02]' : 'bg-white border-slate-100 text-slate-400'}`}>
+              <div className="text-[8px] md:text-[9px] font-black uppercase tracking-widest opacity-80">Player</div>
+              <div className="text-xs md:text-sm font-black truncate">{state.playerType ? state.playerType.toUpperCase() : 'SEARCHING...'}</div>
             </div>
-            <div className="bg-white p-2 md:p-4 rounded-2xl md:rounded-3xl border border-slate-100 shadow-sm flex-1 text-center">
-              <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase">Shots</span>
-              <div className="text-lg md:text-2xl font-black mt-0.5">
-                {state.shots}
-              </div>
+
+            {/* Score (Compressed) */}
+            <div className="bg-white p-2 md:p-3 rounded-xl md:rounded-2xl border border-slate-100 shadow-sm text-center flex flex-col justify-center">
+              <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase leading-none mb-1">Score</span>
+              <div className="text-sm md:text-lg font-black">{userProfile?.totalScore.toLocaleString()}</div>
+            </div>
+
+            {/* Shots (Compressed) */}
+            <div className="bg-white p-2 md:p-3 rounded-xl md:rounded-2xl border border-slate-100 shadow-sm text-center flex flex-col justify-center">
+              <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase leading-none mb-1">Shots</span>
+              <div className="text-sm md:text-lg font-black">{state.shots}</div>
+            </div>
+
+            {/* Opponent Card */}
+            <div className={`p-2 md:p-3 rounded-xl md:rounded-2xl border transition-all duration-300 ${state.currentTurn === 'opponent' ? 'bg-slate-700 border-slate-500 text-white shadow-lg scale-[1.02]' : 'bg-white border-slate-100 text-slate-400'}`}>
+              <div className="text-[8px] md:text-[9px] font-black uppercase tracking-widest opacity-80 text-right">Opponent</div>
+              <div className="text-xs md:text-sm font-black truncate text-right">{state.opponentName}</div>
             </div>
           </div>
 
@@ -865,7 +879,7 @@ const App: React.FC = () => {
             </div>
             <button onClick={toggleMusic} className="w-full py-3 bg-slate-50 rounded-xl font-bold flex justify-between px-4">
               <span>Music</span>
-              <span className={userProfile?.musicEnabled ? 'text-indigo-600' : 'text-slate-400'}>{userProfile?.musicEnabled ? 'ON' : 'OFF'}</span>
+              <span className={userProfile?.musicEnabled ? 'text-emerald-600' : 'text-slate-400'}>{userProfile?.musicEnabled ? 'ON' : 'OFF'}</span>
             </button>
 
             {userProfile?.musicEnabled && (
@@ -888,7 +902,7 @@ const App: React.FC = () => {
                           }
                         }
                       }}
-                      className={`w-full py-3 px-4 text-sm font-bold flex items-center justify-between transition-colors ${userProfile?.selectedTrackIndex === i ? 'bg-indigo-100 text-indigo-700' : 'hover:bg-slate-100 text-slate-600'}`}
+                      className={`w-full py-3 px-4 text-sm font-bold flex items-center justify-between transition-colors ${userProfile?.selectedTrackIndex === i ? 'bg-emerald-100 text-emerald-700' : 'hover:bg-slate-100 text-slate-600'}`}
                     >
                       <span className="flex items-center gap-2"><Music2 size={14} /> {track.name}</span>
                       {userProfile?.selectedTrackIndex === i && <CheckCircle size={14} />}

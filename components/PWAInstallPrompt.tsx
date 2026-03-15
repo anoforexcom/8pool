@@ -83,8 +83,8 @@ const PWAInstallPrompt: React.FC = () => {
                 </button>
 
                 <div className="flex items-start gap-4">
-                    <div className="p-3 bg-indigo-100 rounded-2xl">
-                        <Download size={24} className="text-indigo-600" />
+                    <div className="p-3 bg-emerald-100 rounded-2xl">
+                        <Download size={24} className="text-emerald-600" />
                     </div>
                     <div className="flex-1">
                         <h3 className="font-black text-lg uppercase tracking-tight mb-1">
@@ -96,7 +96,7 @@ const PWAInstallPrompt: React.FC = () => {
                         <div className="flex gap-2">
                             <button
                                 onClick={handleInstall}
-                                className="flex-1 py-3 bg-indigo-600 text-white rounded-xl font-black text-sm uppercase hover:bg-indigo-700 transition-all active:scale-95"
+                                className="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-black text-sm uppercase hover:bg-emerald-700 transition-all active:scale-95"
                             >
                                 Instalar
                             </button>

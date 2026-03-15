@@ -21,7 +21,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ onBack }) => {
                     </div>
                     <button
                         onClick={onBack}
-                        className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-indigo-600 uppercase tracking-widest transition-colors"
+                        className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-emerald-600 uppercase tracking-widest transition-colors"
                     >
                         <ArrowLeft size={16} /> Back to Home
                     </button>
@@ -32,7 +32,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ onBack }) => {
             <div className="pt-32 pb-16 px-4 bg-white border-b border-slate-100">
                 <div className="max-w-4xl mx-auto text-center">
                     <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 uppercase tracking-tight">
-                        Customer <span className="text-indigo-600">Stories</span>
+                        Customer <span className="text-emerald-600">Stories</span>
                     </h1>
                     <p className="text-xl text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed">
                         See what our community of billiards masters has to say about their journey with Pool 8 Live.
@@ -45,7 +45,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ onBack }) => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {TESTIMONIALS.map((t, i) => (
                         <div key={i} className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                            <Quote size={24} className="text-indigo-200 mb-4" />
+                            <Quote size={24} className="text-emerald-200 mb-4" />
                             <p className="text-slate-600 font-medium mb-6 leading-relaxed italic">"{t.text}"</p>
 
                             <div className="mt-auto border-t border-slate-50 pt-6">
@@ -56,7 +56,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ onBack }) => {
                                 </div>
                                 <div>
                                     <h4 className="font-black text-slate-800 text-sm uppercase tracking-tight">{t.name}</h4>
-                                    <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">{t.role}</span>
+                                    <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{t.role}</span>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ onBack }) => {
             {/* CTA */}
             <div className="max-w-4xl mx-auto px-4 text-center mt-8">
                 <h3 className="text-2xl font-black text-slate-800 mb-6 uppercase tracking-tight">Ready to join them?</h3>
-                <button onClick={onBack} className="bg-indigo-600 text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl hover:bg-indigo-700 active:scale-95 transition-all">
+                <button onClick={onBack} className="bg-emerald-600 text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl hover:bg-emerald-700 active:scale-95 transition-all">
                     PLAY NOW
                 </button>
             </div>

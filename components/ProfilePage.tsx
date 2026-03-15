@@ -40,7 +40,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userProfile, onSave, onBack }
         <div className="min-h-screen bg-slate-50 flex flex-col">
             <nav className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
                 <div className="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between">
-                    <button onClick={onBack} className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold transition-colors">
+                    <button onClick={onBack} className="flex items-center gap-2 text-slate-500 hover:text-emerald-600 font-bold transition-colors">
                         <ArrowLeft size={20} /> Back
                     </button>
                     <span className="font-black text-xl tracking-tight text-slate-800 uppercase">Edit Profile</span>
@@ -49,19 +49,19 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userProfile, onSave, onBack }
             </nav>
 
             <main className="flex-1 max-w-2xl mx-auto w-full p-6">
-                <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-indigo-50">
+                <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-emerald-50">
 
                     {/* Avatar Section */}
                     <div className="flex flex-col items-center mb-10">
                         <div className="relative group cursor-pointer mb-6">
-                            <div className="w-32 h-32 rounded-full bg-indigo-50 border-4 border-white shadow-2xl flex items-center justify-center text-6xl overflow-hidden relative">
+                            <div className="w-32 h-32 rounded-full bg-emerald-50 border-4 border-white shadow-2xl flex items-center justify-center text-6xl overflow-hidden relative">
                                 {avatar.startsWith('http') ? (
                                     <img src={avatar} alt="Avatar" className="w-full h-full object-cover" />
                                 ) : (
                                     <span>{avatar}</span>
                                 )}
                             </div>
-                            <div className="absolute bottom-0 right-0 bg-indigo-600 text-white p-2 rounded-full shadow-lg border-4 border-white">
+                            <div className="absolute bottom-0 right-0 bg-emerald-600 text-white p-2 rounded-full shadow-lg border-4 border-white">
                                 <Camera size={20} />
                             </div>
                         </div>
@@ -69,13 +69,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userProfile, onSave, onBack }
                         <div className="flex bg-slate-100 p-1 rounded-xl mb-6">
                             <button
                                 onClick={() => setIsUploadMode(false)}
-                                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${!isUploadMode ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${!isUploadMode ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                             >
                                 Emoji Presets
                             </button>
                             <button
                                 onClick={() => setIsUploadMode(true)}
-                                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${isUploadMode ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${isUploadMode ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                             >
                                 Upload Photo
                             </button>
@@ -88,7 +88,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userProfile, onSave, onBack }
                                         <button
                                             key={emoji}
                                             onClick={() => setAvatar(emoji)}
-                                            className={`aspect-square flex items-center justify-center text-2xl rounded-xl transition-all hover:scale-110 active:scale-95 ${avatar === emoji ? 'bg-indigo-100 border-2 border-indigo-500' : 'bg-white border border-slate-200 hover:border-indigo-200'}`}
+                                            className={`aspect-square flex items-center justify-center text-2xl rounded-xl transition-all hover:scale-110 active:scale-95 ${avatar === emoji ? 'bg-emerald-100 border-2 border-emerald-500' : 'bg-white border border-slate-200 hover:border-emerald-200'}`}
                                         >
                                             {emoji}
                                         </button>
@@ -96,7 +96,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userProfile, onSave, onBack }
                                 </div>
                             ) : (
                                 <div className="space-y-4 p-8 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-slate-50 transition-colors group">
-                                    <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                         <Upload size={24} />
                                     </div>
                                     <h3 className="font-black text-slate-700">Choose from Device</h3>
@@ -109,8 +109,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userProfile, onSave, onBack }
                                             file:mr-4 file:py-2 file:px-4
                                             file:rounded-full file:border-0
                                             file:text-sm file:font-semibold
-                                            file:bg-indigo-50 file:text-indigo-700
-                                            hover:file:bg-indigo-100
+                                            file:bg-emerald-50 file:text-emerald-700
+                                            hover:file:bg-emerald-100
                                             cursor-pointer"
                                     />
                                 </div>
@@ -128,7 +128,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userProfile, onSave, onBack }
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 maxLength={20}
-                                className="w-full pl-14 pr-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl font-black text-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all"
+                                className="w-full pl-14 pr-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl font-black text-lg text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all"
                                 placeholder="Enter your name"
                             />
                         </div>
@@ -137,7 +137,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userProfile, onSave, onBack }
                     {/* Save Button */}
                     <button
                         onClick={handleSave}
-                        className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-lg uppercase tracking-widest shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group mb-10"
+                        className="w-full py-5 bg-emerald-600 text-white rounded-2xl font-black text-lg uppercase tracking-widest shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group mb-10"
                     >
                         <Save size={24} className="group-hover:animate-bounce" /> Save Profile
                     </button>
@@ -145,7 +145,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userProfile, onSave, onBack }
                     {/* Purchase History Section */}
                     <div className="border-t border-slate-100 pt-10">
                         <h3 className="flex items-center gap-2 font-black text-slate-800 text-lg uppercase tracking-tight mb-6">
-                            <History size={20} className="text-indigo-600" /> Purchase History
+                            <History size={20} className="text-emerald-600" /> Purchase History
                         </h3>
 
                         <div className="bg-slate-50 rounded-2xl p-1 max-h-60 overflow-y-auto">
@@ -163,7 +163,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userProfile, onSave, onBack }
                                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{new Date(purchase.date).toLocaleDateString()}</span>
                                             </div>
                                             <div className="text-right">
-                                                <div className="font-black text-indigo-600">{purchase.amount} {purchase.currency}</div>
+                                                <div className="font-black text-emerald-600">{purchase.amount} {purchase.currency}</div>
                                                 <span className="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[9px] font-black rounded uppercase tracking-widest">{purchase.status}</span>
                                             </div>
                                         </div>

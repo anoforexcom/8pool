@@ -125,13 +125,13 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
 
             <main className="max-w-xl mx-auto mt-8 px-4 space-y-6">
                 {/* Order Summary */}
-                <div className="bg-indigo-600 p-6 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden">
+                <div className="bg-emerald-600 p-6 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -translate-y-12 translate-x-12"></div>
                     <h2 className="text-[10px] font-black opacity-60 uppercase tracking-widest mb-4">You are buying</h2>
                     <div className="flex justify-between items-end">
                         <div>
                             <div className="text-3xl font-black leading-tight">{pack.pack}</div>
-                            <div className="text-indigo-200 font-bold">{pack.qty} Credits</div>
+                            <div className="text-emerald-200 font-bold">{pack.qty} Credits</div>
                         </div>
                         <div className="text-4xl font-black">{pack.amount}</div>
                     </div>
@@ -143,7 +143,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
                             key={method.id}
                             onClick={() => setSelectedMethod(method.id)}
                             className={`flex flex-col items-center justify-center p-4 rounded-3xl border transition-all duration-300 ${selectedMethod === method.id
-                                ? 'border-indigo-600 bg-white shadow-lg ring-1 ring-indigo-600 scale-[1.05] z-10'
+                                ? 'border-emerald-600 bg-white shadow-lg ring-1 ring-emerald-600 scale-[1.05] z-10'
                                 : 'border-slate-100 bg-white/50 opacity-60 grayscale hover:grayscale-0 hover:opacity-100'
                                 }`}
                         >
@@ -175,7 +175,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
                                             <input
                                                 type="text"
                                                 placeholder="0000 0000 0000 0000"
-                                                className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold transition-all"
+                                                className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold transition-all"
                                                 value={form.cardNumber}
                                                 onChange={(e) => handleInputChange('cardNumber', e.target.value.replace(/\D/g, '').slice(0, 16))}
                                             />
@@ -189,7 +189,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
                                                 <input
                                                     type="text"
                                                     placeholder="MM/YY"
-                                                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold transition-all"
+                                                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold transition-all"
                                                     value={form.expiry}
                                                     onChange={(e) => handleInputChange('expiry', e.target.value.slice(0, 5))}
                                                 />
@@ -202,7 +202,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
                                                 <input
                                                     type="text"
                                                     placeholder="123"
-                                                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold transition-all"
+                                                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold transition-all"
                                                     value={form.cvc}
                                                     onChange={(e) => handleInputChange('cvc', e.target.value.replace(/\D/g, '').slice(0, 4))}
                                                 />
@@ -221,7 +221,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
                                             <input
                                                 type="tel"
                                                 placeholder="912 345 678"
-                                                className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-600 outline-none font-bold transition-all"
+                                                className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold transition-all"
                                                 value={form.phone}
                                                 onChange={(e) => handleInputChange('phone', e.target.value.replace(/\D/g, '').slice(0, 9))}
                                             />
@@ -287,7 +287,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
                                     </div>
                                     <div className="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-100">
                                         <span className="text-[10px] font-black text-slate-400">VALUE</span>
-                                        <span className="font-black text-indigo-600">{pack.amount}</span>
+                                        <span className="font-black text-emerald-600">{pack.amount}</span>
                                     </div>
                                     <p className="text-[9px] text-slate-400 font-bold text-center uppercase tracking-widest pt-2">VALID FOR 24 HOURS</p>
                                 </div>
@@ -295,7 +295,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
                         </>
                     ) : (
                         <div className="py-8 text-center space-y-4">
-                            <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto">
+                            <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
                                 <ShieldCheck size={32} />
                             </div>
                             <div>
@@ -321,7 +321,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
                     <button
                         onClick={handlePay}
                         disabled={isProcessing || !isFormValid()}
-                        className={`w-full py-5 rounded-[2rem] font-black text-xl text-white transition-all shadow-xl flex items-center justify-center gap-3 ${isProcessing || !isFormValid() ? 'bg-slate-300 cursor-not-allowed shadow-none' : 'bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98]'
+                        className={`w-full py-5 rounded-[2rem] font-black text-xl text-white transition-all shadow-xl flex items-center justify-center gap-3 ${isProcessing || !isFormValid() ? 'bg-slate-300 cursor-not-allowed shadow-none' : 'bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98]'
                             }`}
                     >
                         {isProcessing ? (

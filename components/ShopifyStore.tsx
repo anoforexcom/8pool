@@ -68,12 +68,12 @@ const ShopifyStore: React.FC<ShopifyStoreProps> = ({ onClose, onPurchaseSuccess 
     return (
         <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
             <div className="bg-white rounded-[3rem] shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
-                <header className="p-8 border-b border-slate-100 flex justify-between items-center bg-indigo-600 text-white">
+                <header className="p-8 border-b border-slate-100 flex justify-between items-center bg-emerald-600 text-white">
                     <div className="flex items-center gap-4">
                         <ShoppingBag size={32} className="text-amber-400" />
                         <div>
                             <h2 className="text-3xl font-black uppercase tracking-tighter italic">Pro Shop</h2>
-                            <p className="text-indigo-100 text-xs font-bold uppercase tracking-widest opacity-80">Powered by Shopify</p>
+                            <p className="text-emerald-100 text-xs font-bold uppercase tracking-widest opacity-80">Powered by Shopify</p>
                         </div>
                     </div>
                     <button onClick={onClose} className="p-3 hover:bg-white/10 rounded-full transition-all border border-white/20">
@@ -90,14 +90,14 @@ const ShopifyStore: React.FC<ShopifyStoreProps> = ({ onClose, onPurchaseSuccess 
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {products.map(product => (
-                                <div key={product.id} className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 hover:border-indigo-200 hover:shadow-xl transition-all group">
+                                <div key={product.id} className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 hover:border-emerald-200 hover:shadow-xl transition-all group">
                                     <div className="flex justify-between items-start mb-4">
-                                        <div className="p-4 bg-indigo-50 rounded-2xl text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                                        <div className="p-4 bg-emerald-50 rounded-2xl text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                                             <Package size={32} />
                                         </div>
                                         <div className="text-right">
                                             <div className="text-2xl font-black text-slate-900">{product.price} {product.currencyCode}</div>
-                                            <div className="text-indigo-600 font-black text-xs uppercase tracking-widest">{product.credits} Credits</div>
+                                            <div className="text-emerald-600 font-black text-xs uppercase tracking-widest">{product.credits} Credits</div>
                                         </div>
                                     </div>
                                     <h3 className="text-xl font-black text-slate-800 uppercase tracking-tight mb-2">{product.title}</h3>
@@ -105,7 +105,7 @@ const ShopifyStore: React.FC<ShopifyStoreProps> = ({ onClose, onPurchaseSuccess 
 
                                     <button
                                         onClick={() => handleCheckout(product)}
-                                        className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black flex items-center justify-center gap-2 hover:bg-indigo-600 transition-all active:scale-95"
+                                        className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all active:scale-95"
                                     >
                                         BUY NOW <ChevronRight size={18} />
                                     </button>

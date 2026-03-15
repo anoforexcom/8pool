@@ -25,7 +25,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, onClose }) => {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-200">
+        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-emerald-200">
           <table className="w-full text-left">
             <thead className="sticky top-0 bg-white/95 backdrop-blur-md z-10 text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] shadow-sm">
               <tr>

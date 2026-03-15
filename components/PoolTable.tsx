@@ -316,24 +316,12 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
 
             {state.gameState === 'opponent_thinking' && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-                    <div className="bg-indigo-600 text-white px-6 py-3 rounded-full font-black shadow-xl animate-bounce">
+                    <div className="bg-emerald-600 text-white px-6 py-3 rounded-full font-black shadow-xl animate-bounce">
                         OPPONENT IS THINKING...
                     </div>
                 </div>
             )}
 
-            {/* Info Overlay */}
-            <div className="absolute top-4 left-4 right-4 flex justify-between pointer-events-none">
-                <div className={`p-2 rounded-lg backdrop-blur-md border ${state.currentTurn === 'player' ? 'bg-indigo-600/80 border-white text-white shadow-lg' : 'bg-black/40 border-white/20 text-white/60'}`}>
-                    <div className="text-[10px] font-black uppercase tracking-widest">Player</div>
-                    <div className="text-sm font-bold">{state.playerType ? state.playerType.toUpperCase() : 'OPEN TABLE'}</div>
-                </div>
-
-                <div className={`p-2 rounded-lg backdrop-blur-md border ${state.currentTurn === 'opponent' ? 'bg-rose-600/80 border-white text-white shadow-lg' : 'bg-black/40 border-white/20 text-white/60'}`}>
-                    <div className="text-[10px] font-black uppercase tracking-widest text-right">{state.opponentName}</div>
-                    <div className="text-sm font-bold text-right">{state.opponentType ? state.opponentType.toUpperCase() : 'OPEN TABLE'}</div>
-                </div>
-            </div>
         </div>
     );
 };
