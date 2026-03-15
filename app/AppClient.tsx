@@ -253,8 +253,8 @@ const App: React.FC = () => {
   // Removed chat simulator for production
 
   useEffect(() => {
-    // Firestore Chat Subscription
-    const q = query(collection(db, 'chat_messages'), orderBy('created_at', 'asc'), limit(50));
+    // Firestore Chat Subscription - Real-time sync
+    const q = query(collection(db, 'chat_messages'), orderBy('created_at', 'desc'), limit(50));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const fetchedMessages = snapshot.docs.map(doc => {
         const m = doc.data();
@@ -263,14 +263,58 @@ const App: React.FC = () => {
           sender: m.sender,
           text: m.text,
           timestamp: (m.created_at && m.created_at.seconds) ? (m.created_at.seconds * 1000) : Date.now(),
-          isMe: userProfile?.name === m.sender
+          isMe: (userProfile?.name === m.sender) || (user?.uid === m.user_id && !!user?.uid)
         };
-      });
+      }).reverse(); // Latest at bottom
       setMessages(fetchedMessages);
     });
 
     return () => unsubscribe();
-  }, [userProfile?.name]);
+  }, [userProfile?.name, user?.uid]);
+
+  // Chat Simulation Engine - To keep the community feeling "live"
+  useEffect(() => {
+    const communityMessages = [
+      "Boa jogada! 🎱",
+      "Alguém para um torneio agora?",
+      "Adoro o novo tema Emerald!",
+      "Como ganho mais créditos?",
+      "Acabei de subir para o nível 10! 🔥",
+      "O ranking está muito competitivo hoje.",
+      "Melhor jogo de pool que encontrei.",
+      "Alguém sabe se há novos tacos a caminho?",
+      "Ganhei 500 créditos no bónus diário!",
+      "Este jogo é viciante...",
+      "Nice shot!",
+      "Tournament mode is hard!",
+      "Just reached Master rank!",
+      "Anyone want to play?",
+      "Love the physics of the balls.",
+      "Emerald theme looks sick!",
+      "How to unlock more cues?",
+      "The leaderboard is tight today.",
+      "Finally cleared level 20!",
+      "This is so much better than the old version."
+    ];
+
+    const interval = setInterval(() => {
+      // 10% chance to send a "community" message every 45-90 seconds
+      // if the window is focused to make it look like human activity
+      if (document.visibilityState === 'visible' && Math.random() < 0.1) {
+        const randomMsg = communityMessages[Math.floor(Math.random() * communityMessages.length)];
+        const randomSender = OPPONENT_NAMES[Math.floor(Math.random() * OPPONENT_NAMES.length)];
+
+        addDoc(collection(db, 'chat_messages'), {
+          user_id: 'bot_id_' + randomSender,
+          sender: randomSender,
+          text: randomMsg,
+          created_at: serverTimestamp()
+        });
+      }
+    }, 45000 + Math.random() * 45000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const [leaderboardEntries, setLeaderboardEntries] = useState<LeaderboardEntry[]>([]);
 
