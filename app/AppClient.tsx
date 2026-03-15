@@ -56,6 +56,7 @@ const App: React.FC = () => {
   const [view, setView] = useState<View>('landing');
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [state, setState] = useState<PoolGameState | null>(null);
+  const [user, setUser] = useState<any>(null);
   const [showLevelSelector, setShowLevelSelector] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -171,9 +172,10 @@ const App: React.FC = () => {
     if (savedChat) setMessages(JSON.parse(savedChat));
 
     // Firebase Auth Listener
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        fetchUserProfile(user.uid);
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+      setUser(u);
+      if (u) {
+        fetchUserProfile(u.uid);
       } else {
         setUserProfile(null);
       }
@@ -566,16 +568,22 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (state?.gameState === 'opponent_thinking' && !state.isPaused) {
-      const timer = setTimeout(() => {
-        const shot = calculateOpponentShot(state);
-        if (shot) {
+      // 1. First calculate the shot
+      const shot = calculateOpponentShot(state);
+
+      if (shot) {
+        // 2. Set the target so the cue stick is visible for the player to see the aim
+        setState(s => s ? { ...s, cueTarget: { x: Math.cos(shot.angle), y: Math.sin(shot.angle) } } : null);
+
+        // 3. Delay the actual strike so the player can see where the opponent is aiming
+        const timer = setTimeout(() => {
           handleStrike(shot.power, shot.angle);
-        } else {
-          // Fallback: switch back or skip
-          setState(s => s ? { ...s, gameState: 'aiming', currentTurn: 'player' } : null);
-        }
-      }, 1500 + Math.random() * 1000); // 1.5 - 2.5s "thinking" time
-      return () => clearTimeout(timer);
+        }, 1500 + Math.random() * 500); // Wait 1.5-2s before striking
+        return () => clearTimeout(timer);
+      } else {
+        // Fallback: switch back or skip
+        setState(s => s ? { ...s, gameState: 'aiming', currentTurn: 'player' } : null);
+      }
     }
   }, [state?.gameState, state?.isPaused]);
 
@@ -680,6 +688,7 @@ const App: React.FC = () => {
         <PaymentPage
           pack={selectedPack}
           settings={settings}
+          userId={user?.uid}
           onComplete={(method) => {
             if (userProfile && selectedPack) {
               const newCredits = userProfile.credits + selectedPack.qty;

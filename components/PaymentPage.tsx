@@ -21,6 +21,7 @@ import { VisaIcon, MastercardIcon, PayPalIcon, MBWayIcon, MultibancoIcon } from 
 interface PaymentPageProps {
     pack: CreditPack;
     settings: GlobalSettings;
+    userId?: string | null;
     onComplete: (paymentMethod: string) => void;
     onBack: () => void;
 }
@@ -32,7 +33,7 @@ const PAYMENT_METHODS = [
     { id: 'multibanco', name: 'Entity', icon: <MultibancoIcon size={28} />, desc: 'Reference' },
 ];
 
-const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, onBack }) => {
+const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, userId, onComplete, onBack }) => {
     const [selectedMethod, setSelectedMethod] = useState<string>('card');
     const [isProcessing, setIsProcessing] = useState(false);
 
@@ -92,6 +93,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ pack, settings, onComplete, o
                         price: pack.price,
                         successUrl: `${window.location.origin}/?payment=success&packId=${pack.id}`,
                         cancelUrl: `${window.location.origin}/?payment=cancel`,
+                        userId: userId || 'anonymous'
                     }),
                 });
 

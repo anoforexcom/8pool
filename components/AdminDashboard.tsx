@@ -579,6 +579,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                                 onChange={(e) => setLocalSettings({ ...localSettings, stripeSecretKey: e.target.value })}
                             />
                         </div>
+                        <div className="space-y-1.5">
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Stripe Webhook Secret (whsec_...)</label>
+                            <input
+                                type="password"
+                                className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-emerald-600 outline-none font-bold text-slate-800"
+                                value={localSettings.stripeWebhookSecret || ''}
+                                placeholder="whsec_..."
+                                onChange={(e) => setLocalSettings({ ...localSettings, stripeWebhookSecret: e.target.value })}
+                            />
+                        </div>
                     </div>
                 </div>
 
@@ -608,31 +618,43 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ users, settings, onUpda
                 </div>
 
                 {/* Activation Guide */}
-                <div className="bg-amber-50 p-8 rounded-[2.5rem] border border-amber-100 space-y-4">
+                <div className="bg-amber-50 p-8 rounded-[2.5rem] border border-amber-100 space-y-4 md:col-span-2">
                     <div className="flex items-center gap-3 text-amber-600">
                         <AlertTriangle size={24} />
                         <h3 className="font-black uppercase tracking-tight">Activation Guide</h3>
                     </div>
-                    <div className="text-xs text-amber-800 font-medium leading-relaxed space-y-4">
+                    <div className="text-xs text-amber-800 font-medium leading-relaxed grid md:grid-cols-3 gap-8">
                         <div className="space-y-1">
-                            <p className="font-bold underline">Stripe Setup:</p>
+                            <p className="font-bold underline uppercase tracking-widest text-[9px]">Stripe Setup:</p>
                             <ol className="list-decimal pl-4 space-y-1">
-                                <li>Create an account at <a href="https://stripe.com" target="_blank" className="underline font-bold">Stripe.com</a>.</li>
-                                <li>Go to <strong>Developers {'>'} API Keys</strong>.</li>
-                                <li>Copy the <strong>Publishable key</strong> and <strong>Secret key</strong>.</li>
+                                <li>Create account at <a href="https://stripe.com" target="_blank" className="underline font-bold">Stripe.com</a>.</li>
+                                <li>Go to <strong>Developers {'>'} API Keys</strong> to get your keys.</li>
+                                <li>Go to <strong>Developers {'>'} Webhooks</strong> and add an endpoint.</li>
+                                <li><strong>Endpoint URL:</strong> <code className="bg-amber-200/50 px-1 rounded">{window.location.origin}/api/webhooks/stripe</code></li>
+                                <li>Select event: <code>checkout.session.completed</code>.</li>
+                                <li>Copy the <strong>Signing Secret</strong> to the field above.</li>
                             </ol>
                         </div>
                         <div className="space-y-1">
-                            <p className="font-bold underline">PayPal Setup:</p>
+                            <p className="font-bold underline uppercase tracking-widest text-[9px]">PayPal Setup:</p>
                             <ol className="list-decimal pl-4 space-y-1">
                                 <li>Login to <a href="https://developer.paypal.com" target="_blank" className="underline font-bold">PayPal Developer</a>.</li>
-                                <li>Create an "App" under <strong>Dashboard {'>'} My Apps & Credentials</strong>.</li>
-                                <li>Copy the <strong>Client ID</strong> from the "Live" tab.</li>
+                                <li>Create "App" under <strong>Dashboard {'>'} My Apps</strong>.</li>
+                                <li>Copy <strong>Client ID</strong> from "Live" tab.</li>
                             </ol>
                         </div>
-                        <div className="pt-2">
-                            <p className="font-black uppercase text-[10px]">Step 3: Paste them here and switch the mode to Real.</p>
+                        <div className="space-y-1">
+                            <p className="font-bold underline uppercase tracking-widest text-[9px]">Shopify Setup:</p>
+                            <ol className="list-decimal pl-4 space-y-1">
+                                <li>Go to <strong>Settings {'>'} App/Sales Channels</strong>.</li>
+                                <li>Click <strong>Develop Apps {'>'} Create an App</strong>.</li>
+                                <li>Configure <strong>Storefront API</strong> (Public) scopes.</li>
+                                <li>Configure <strong>Admin Webhooks</strong> (`orders/paid`).</li>
+                            </ol>
                         </div>
+                    </div>
+                    <div className="pt-4 border-t border-amber-200/50">
+                        <p className="font-black uppercase text-[10px] text-center">Paste credentials here and save. Webhook URL: {window.location.origin}/api/shopify/webhook</p>
                     </div>
                 </div>
             </div>

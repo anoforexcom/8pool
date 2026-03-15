@@ -138,19 +138,6 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, onBack }) => {
             {loading ? <Loader2 className="animate-spin" size={24} /> : (isLogin ? 'LOGIN NOW' : 'CREATE ACCOUNT')}
           </button>
 
-          <button
-            type="button"
-            onClick={() => {
-              setLoading(true);
-              setTimeout(() => {
-                onLogin({ name: 'Shopify User', email: 'user@shopify.com' });
-                setLoading(false);
-              }, 1500);
-            }}
-            className="w-full py-5 bg-[#95BF47] text-white rounded-2xl font-black text-lg shadow-xl hover:bg-[#82a63d] hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest flex items-center justify-center gap-3 mt-2"
-          >
-            <ShoppingBag size={24} /> LOGIN WITH SHOPIFY
-          </button>
         </form>
 
         <div className="relative my-10">

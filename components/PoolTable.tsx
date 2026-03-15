@@ -245,11 +245,12 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
     let htmlCueY = 0;
     let showHtmlCue = false;
 
-    if (state.gameState === 'aiming' && state.cueBall && currentMouse) {
+    if ((state.gameState === 'aiming' || state.gameState === 'opponent_thinking') && state.cueBall) {
         showHtmlCue = true;
-        const dx = currentMouse.x - state.cueBall.x;
-        const dy = currentMouse.y - state.cueBall.y;
-        htmlCueAngle = Math.atan2(dy, dx); // Angle in radians
+
+        const dx = (state.gameState === 'opponent_thinking' && state.cueTarget) ? state.cueTarget.x : (currentMouse ? currentMouse.x - state.cueBall.x : 0);
+        const dy = (state.gameState === 'opponent_thinking' && state.cueTarget) ? state.cueTarget.y : (currentMouse ? currentMouse.y - state.cueBall.y : 0);
+        htmlCueAngle = Math.atan2(dy, dx);
 
         // Base distance from cue ball
         let distance = BALL_RADIUS + 5;
@@ -261,10 +262,18 @@ const PoolTable: React.FC<PoolTableProps> = ({ state, onStrike, onAim }) => {
 
         htmlCueX = state.cueBall.x + Math.cos(htmlCueAngle) * distance;
         htmlCueY = state.cueBall.y + Math.sin(htmlCueAngle) * distance;
+
+        // Opponent movement smoothing (simplified for now)
+        if (state.gameState === 'opponent_thinking' && !isDragging) {
+            // Add a slight oscillation to simulate breathing/aiming
+            const drift = Math.sin(Date.now() / 500) * 5;
+            htmlCueX += Math.cos(htmlCueAngle + Math.PI / 2) * drift;
+            htmlCueY += Math.sin(htmlCueAngle + Math.PI / 2) * drift;
+        }
     }
 
     return (
-        <div className="relative w-full max-w-[800px] aspect-[2/1] bg-slate-800 p-2 md:p-4 rounded-xl shadow-2xl border-2 md:border-4 border-slate-700 select-none touch-none mx-auto overflow-hidden">
+        <div className="relative w-full max-w-[800px] aspect-[2/1] bg-slate-800 p-2 md:p-4 rounded-xl shadow-2xl border-2 md:border-4 border-slate-700 select-none touch-none mx-auto">
             <canvas
                 ref={canvasRef}
                 width={TABLE_WIDTH}

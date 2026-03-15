@@ -5,7 +5,7 @@ import { doc, getDoc } from 'firebase/firestore';
 
 export async function POST(request: Request) {
     try {
-        const { packId, packName, price, successUrl, cancelUrl } = await request.json();
+        const { packId, packName, price, successUrl, cancelUrl, userId } = await request.json();
 
         // 1. Fetch Stripe Secret Key from Firestore (Securely on the server)
         const settingsRef = doc(db, 'config', 'global');
@@ -45,6 +45,7 @@ export async function POST(request: Request) {
             cancel_url: cancelUrl,
             metadata: {
                 packId: packId,
+                userId: userId || 'anonymous'
             }
         });
 
